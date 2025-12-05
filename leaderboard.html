@@ -1,0 +1,2801 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classements - Arcade Retro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --retro-cyan: #00CED1;
+            --retro-pink: #FF69B4;
+            --retro-purple: #8A2BE2;
+            --neon-green: #39FF14;
+            --crt-black: #0A0A0A;
+            --crt-dark: #1A1A2E;
+            --crt-gray: #2D2D44;
+            --crt-text: #E0E0FF;
+            --crt-glow: rgba(0, 206, 209, 0.7);
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cadre CRT -->
+    <div class="crt-frame">
+        <div class="crt-screen">
+            <!-- Effets CRT -->
+            <div class="tube-lines"></div>
+            <div class="scanlines"></div>
+            <div class="glare"></div>
+            <div class="pixel-grid"></div>
+            <div class="tv-noise"></div>
+            
+            <!-- Navigation -->
+            <nav class="leaderboard-nav pixel-border">
+                <a href="index.html" class="nav-btn pixel-border">
+                    <i class="fas fa-home"></i> RETOUR
+                </a>
+                <h1 class="nav-title pixel-text">
+                    <i class="fas fa-crown"></i> CLASSEMENTS ARCADE
+                </h1>
+                <a href="arcade.html" class="nav-btn pixel-border">
+                    <i class="fas fa-gamepad"></i> JOUER
+                </a>
+            </nav>
+            
+            <!-- En-tête avec stats -->
+            <header class="leaderboard-header">
+                <div class="header-content pixel-border">
+                    <div class="character-display">
+                        <div class="crown-sprite">
+                            <div class="crown-base"></div>
+                            <div class="crown-jewels">
+                                <div class="jewel gold"></div>
+                                <div class="jewel silver"></div>
+                                <div class="jewel bronze"></div>
+                            </div>
+                            <div class="crown-sparkle"></div>
+                        </div>
+                        <div class="header-title">
+                            <h2 class="pixel-text">HALL OF FAME</h2>
+                            <p class="header-subtitle">Défiez les meilleurs joueurs !</p>
+                        </div>
+                    </div>
+                    
+                    <div class="global-stats">
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalPlayers">0</div>
+                                <div class="stat-label">JOUEURS</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalGames">0</div>
+                                <div class="stat-label">PARTIES</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalScore">0</div>
+                                <div class="stat-label">SCORE TOTAL</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="topScore">0</div>
+                                <div class="stat-label">RECORD</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Sélecteur de jeux et filtres -->
+            <div class="filter-selector pixel-border">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <div class="filter-header">
+                            <i class="fas fa-gamepad"></i>
+                            <span class="filter-title pixel-text">SÉLECTIONNER UN JEU</span>
+                        </div>
+                        <div class="game-buttons">
+                            <button class="game-filter-btn pixel-border active" data-game="all">
+                                <i class="fas fa-globe"></i> TOUS
+                            </button>
+                            <button class="game-filter-btn pixel-border" data-game="pacman">
+                                <i class="fas fa-ghost"></i> PAC-ROMÂN
+                            </button>
+                            <button class="game-filter-btn pixel-border" data-game="snake">
+                                <i class="fas fa-snake"></i> ȘARPE
+                            </button>
+                            <button class="game-filter-btn pixel-border" data-game="tetris">
+                                <i class="fas fa-th-large"></i> TETRIS
+                            </button>
+                            <button class="game-filter-btn pixel-border" data-game="spaceinvaders">
+                                <i class="fas fa-rocket"></i> SPACE INV
+                            </button>
+                            <button class="game-filter-btn pixel-border" data-game="breakout">
+                                <i class="fas fa-baseball-ball"></i> BREAKOUT
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="filter-header">
+                            <i class="fas fa-filter"></i>
+                            <span class="filter-title pixel-text">FILTRER PAR PÉRIODE</span>
+                        </div>
+                        <div class="time-buttons">
+                            <button class="time-filter-btn pixel-border active" data-time="all">
+                                TOUT TEMPS
+                            </button>
+                            <button class="time-filter-btn pixel-border" data-time="month">
+                                CE MOIS
+                            </button>
+                            <button class="time-filter-btn pixel-border" data-time="week">
+                                CETTE SEMAINE
+                            </button>
+                            <button class="time-filter-btn pixel-border" data-time="today">
+                                AUJOURD'HUI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sort-row">
+                    <div class="sort-group">
+                        <div class="filter-header">
+                            <i class="fas fa-sort"></i>
+                            <span class="filter-title pixel-text">TRIER PAR</span>
+                        </div>
+                        <div class="sort-buttons">
+                            <button class="sort-btn pixel-border active" data-sort="score">
+                                SCORE <i class="fas fa-arrow-down"></i>
+                            </button>
+                            <button class="sort-btn pixel-border" data-sort="games">
+                                PARTIES
+                            </button>
+                            <button class="sort-btn pixel-border" data-sort="wins">
+                                VICTOIRES
+                            </button>
+                            <button class="sort-btn pixel-border" data-sort="streak">
+                                SÉRIE
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="search-box pixel-border">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="playerSearch" placeholder="CHERCHER UN JOUEUR..." class="pixel-text">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top 3 -->
+            <div class="top-three-section">
+                <h3 class="section-title pixel-text">
+                    <i class="fas fa-medal"></i> TOP 3 - ÉLITE DE L'ARCADE
+                </h3>
+                
+                <div class="podium-container">
+                    <!-- 2ème place -->
+                    <div class="podium-place silver-place">
+                        <div class="podium-rank">#2</div>
+                        <div class="podium-player">
+                            <div class="player-avatar silver">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="player-info">
+                                <div class="player-name pixel-text">ARCADE_MASTER</div>
+                                <div class="player-score">
+                                    <i class="fas fa-star"></i>
+                                    <span>25,800</span>
+                                </div>
+                                <div class="player-games">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>148 parties</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="podium-medal">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- 1ère place -->
+                    <div class="podium-place gold-place">
+                        <div class="podium-rank">#1</div>
+                        <div class="podium-player">
+                            <div class="player-avatar gold">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="player-info">
+                                <div class="player-name pixel-text">RETRO_KING</div>
+                                <div class="player-score">
+                                    <i class="fas fa-star"></i>
+                                    <span>32,450</span>
+                                </div>
+                                <div class="player-games">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>201 parties</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="podium-medal">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- 3ème place -->
+                    <div class="podium-place bronze-place">
+                        <div class="podium-rank">#3</div>
+                        <div class="podium-player">
+                            <div class="player-avatar bronze">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="player-info">
+                                <div class="player-name pixel-text">GAME_NINJA</div>
+                                <div class="player-score">
+                                    <i class="fas fa-star"></i>
+                                    <span>18,920</span>
+                                </div>
+                                <div class="player-games">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>112 parties</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="podium-medal">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Classement principal -->
+            <main class="leaderboard-main">
+                <div class="leaderboard-header-row pixel-border">
+                    <div class="rank-col pixel-text">RANG</div>
+                    <div class="player-col pixel-text">JOUEUR</div>
+                    <div class="score-col pixel-text">SCORE</div>
+                    <div class="games-col pixel-text">PARTIES</div>
+                    <div class="wins-col pixel-text">VICTOIRES</div>
+                    <div class="streak-col pixel-text">SÉRIE</div>
+                </div>
+                
+                <div class="leaderboard-list" id="leaderboardList">
+                    <!-- Rang 4 -->
+                    <div class="leaderboard-row pixel-border">
+                        <div class="rank-cell">
+                            <span class="rank-number">#4</span>
+                        </div>
+                        <div class="player-cell">
+                            <div class="player-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="player-details">
+                                <div class="player-name pixel-text">GHOST_HUNTER</div>
+                                <div class="player-tags">
+                                    <span class="player-tag pacman">PAC-ROMÂN</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="score-cell">
+                            <span class="score-value">15,640</span>
+                            <div class="score-progress">
+                                <div class="progress-bar small">
+                                    <div class="progress-fill" style="width: 72%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="games-cell">
+                            <span class="games-value">98</span>
+                        </div>
+                        <div class="wins-cell">
+                            <span class="wins-value">42</span>
+                        </div>
+                        <div class="streak-cell">
+                            <span class="streak-value">7</span>
+                            <i class="fas fa-fire streak-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Rang 5 -->
+                    <div class="leaderboard-row pixel-border">
+                        <div class="rank-cell">
+                            <span class="rank-number">#5</span>
+                        </div>
+                        <div class="player-cell">
+                            <div class="player-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="player-details">
+                                <div class="player-name pixel-text">TETRIS_PRO</div>
+                                <div class="player-tags">
+                                    <span class="player-tag tetris">TETRIS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="score-cell">
+                            <span class="score-value">14,320</span>
+                            <div class="score-progress">
+                                <div class="progress-bar small">
+                                    <div class="progress-fill" style="width: 66%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="games-cell">
+                            <span class="games-value">87</span>
+                        </div>
+                        <div class="wins-cell">
+                            <span class="wins-value">38</span>
+                        </div>
+                        <div class="streak-cell">
+                            <span class="streak-value">5</span>
+                            <i class="fas fa-fire streak-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Rang 6 -->
+                    <div class="leaderboard-row pixel-border highlight-user">
+                        <div class="rank-cell">
+                            <span class="rank-number">#6</span>
+                            <div class="user-badge">VOUS</div>
+                        </div>
+                        <div class="player-cell">
+                            <div class="player-avatar user">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="player-details">
+                                <div class="player-name pixel-text">YOU</div>
+                                <div class="player-tags">
+                                    <span class="player-tag snake">ȘARPE</span>
+                                    <span class="player-tag pacman">PAC-ROMÂN</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="score-cell">
+                            <span class="score-value">12,480</span>
+                            <div class="score-progress">
+                                <div class="progress-bar small">
+                                    <div class="progress-fill" style="width: 57%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="games-cell">
+                            <span class="games-value">76</span>
+                        </div>
+                        <div class="wins-cell">
+                            <span class="wins-value">32</span>
+                        </div>
+                        <div class="streak-cell">
+                            <span class="streak-value">3</span>
+                            <i class="fas fa-fire streak-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Rangs suivants générés dynamiquement -->
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination pixel-border">
+                    <button class="page-btn pixel-border" id="prevPage">
+                        <i class="fas fa-chevron-left"></i> PRÉCÉDENT
+                    </button>
+                    <div class="page-numbers">
+                        <span class="page-number active">1</span>
+                        <span class="page-number">2</span>
+                        <span class="page-number">3</span>
+                        <span class="page-number">4</span>
+                        <span class="page-number">5</span>
+                    </div>
+                    <button class="page-btn pixel-border" id="nextPage">
+                        SUIVANT <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </main>
+            
+            <!-- Pied de page -->
+            <footer class="leaderboard-footer">
+                <div class="footer-content pixel-border">
+                    <div class="footer-info">
+                        <div class="footer-tip">
+                            <i class="fas fa-lightbulb blinking"></i>
+                            <span>ASTUCE : Jouez plus pour grimper dans le classement !</span>
+                        </div>
+                        <div class="footer-stats">
+                            <span class="stat">
+                                <i class="fas fa-clock"></i> DERNIÈRE MAJ: <span id="lastUpdate">Maintenant</span>
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-users"></i> EN LIGNE: <span id="onlinePlayers">42</span>
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-sync-alt"></i> ACTUALISER DANS: <span id="refreshCountdown">30</span>s
+                            </span>
+                        </div>
+                    </div>
+                    <div class="copyright">
+                        ARCADE RETRO • CLASSEMENTS • v1.0
+                    </div>
+                </div>
+            </footer>
+            
+            <!-- Bouton d'actualisation -->
+            <button class="refresh-btn pixel-border" id="refreshLeaderboard">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            
+            <!-- Animation de mise à jour -->
+            <div class="update-animation" id="updateAnimation"></div>
+        </div>
+    </div>
+    
+    <!-- Modal de détails du joueur -->
+    <div class="modal" id="playerModal">
+        <div class="modal-content pixel-border">
+            <div class="modal-header">
+                <h3 class="modal-title pixel-text">
+                    <i class="fas fa-user"></i> PROFIL DU JOUEUR
+                </h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            
+            <div class="modal-body" id="modalPlayerDetails">
+                <!-- Détails du joueur -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Styles CRT de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DotGothic16', 'Press Start 2P', monospace;
+            background: #000;
+            color: var(--crt-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .crt-frame {
+            background: #222;
+            border: 20px solid #111;
+            border-radius: 10px;
+            box-shadow: 
+                0 0 100px rgba(0, 206, 209, 0.7),
+                0 0 50px rgba(255, 105, 180, 0.5),
+                inset 0 0 50px rgba(0, 0, 0, 0.9);
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .crt-screen {
+            background: #000;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            min-height: 800px;
+            border: 2px solid #444;
+        }
+
+        /* Effets CRT */
+        .tube-lines, .scanlines, .glare, .pixel-grid, .tv-noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .tube-lines {
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 206, 209, 0.03) 50%,
+                transparent 100%
+            );
+        }
+
+        .scanlines {
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            animation: scanline 10s linear infinite;
+        }
+
+        .glare {
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.03) 50%,
+                transparent 100%
+            );
+        }
+
+        .pixel-grid {
+            background-image: 
+                linear-gradient(rgba(0, 206, 209, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 105, 180, 0.1) 1px, transparent 1px);
+            background-size: 8px 8px;
+        }
+
+        .tv-noise {
+            background: 
+                radial-gradient(circle, transparent 0%, #000 100%),
+                repeating-radial-gradient(circle at 50% 50%, 
+                    rgba(255, 255, 255, 0.02) 0px, 
+                    rgba(255, 255, 255, 0.02) 1px, 
+                    transparent 1px, 
+                    transparent 10px);
+            opacity: 0.1;
+            animation: noise 0.2s infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        @keyframes noise {
+            0% { background-position: 0 0; }
+            100% { background-position: 10px 10px; }
+        }
+
+        /* Styles communs */
+        .pixel-text {
+            font-family: 'Press Start 2P', 'DotGothic16', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pixel-border {
+            border: 2px solid var(--crt-text);
+            position: relative;
+        }
+
+        .pixel-border::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid #000;
+            pointer-events: none;
+        }
+
+        .blinking {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Navigation */
+        .leaderboard-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-btn {
+            color: var(--crt-text);
+            text-decoration: none;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-btn:hover {
+            background: var(--retro-cyan);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* En-tête */
+        .leaderboard-header {
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .character-display {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .crown-sprite {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            animation: crown-float 3s ease-in-out infinite;
+        }
+
+        .crown-base {
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFD700, #FFED4E);
+            clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+        }
+
+        .crown-jewels {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            width: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .jewel {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .jewel.gold {
+            background: var(--gold);
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        .jewel.silver {
+            background: var(--silver);
+            box-shadow: 0 0 10px var(--silver);
+        }
+
+        .jewel.bronze {
+            background: var(--bronze);
+            box-shadow: 0 0 10px var(--bronze);
+        }
+
+        .crown-sparkle {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes crown-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .header-title h2 {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px var(--gold);
+        }
+
+        .header-subtitle {
+            color: var(--crt-text);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .global-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            background: rgba(0, 206, 209, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--retro-pink);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-family: 'Press Start 2P', monospace;
+            color: var(--neon-green);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--crt-text);
+            opacity: 0.8;
+        }
+
+        /* Filtres */
+        .filter-selector {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .filter-row, .sort-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group, .sort-group {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--retro-pink);
+            font-size: 1rem;
+        }
+
+        .filter-title {
+            color: var(--neon-green);
+        }
+
+        .game-buttons, .time-buttons, .sort-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .game-filter-btn, .time-filter-btn, .sort-btn {
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--crt-text);
+            border: 2px solid var(--crt-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DotGothic16', monospace;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .game-filter-btn.active, .time-filter-btn.active, .sort-btn.active {
+            background: var(--retro-cyan);
+            color: #000;
+        }
+
+        .game-filter-btn:hover:not(.active),
+        .time-filter-btn:hover:not(.active),
+        .sort-btn:hover:not(.active) {
+            background: var(--retro-pink);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .search-box i {
+            color: var(--retro-cyan);
+            margin-right: 10px;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--crt-text);
+            font-family: 'DotGothic16', monospace;
+            width: 100%;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(224, 224, 255, 0.5);
+        }
+
+        /* Top 3 */
+        .top-three-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .podium-place {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .podium-place:hover {
+            transform: translateY(-5px);
+        }
+
+        .gold-place {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 237, 78, 0.1));
+            border: 2px solid var(--gold);
+            order: 2;
+            height: 300px;
+        }
+
+        .silver-place {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(255, 255, 255, 0.1));
+            border: 2px solid var(--silver);
+            order: 1;
+            height: 270px;
+        }
+
+        .bronze-place {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(205, 127, 50, 0.1));
+            border: 2px solid var(--bronze);
+            order: 3;
+            height: 240px;
+        }
+
+        .podium-rank {
+            font-size: 1.5rem;
+            font-family: 'Press Start 2P', monospace;
+            margin-bottom: 15px;
+        }
+
+        .gold-place .podium-rank {
+            color: var(--gold);
+        }
+
+        .silver-place .podium-rank {
+            color: var(--silver);
+        }
+
+        .bronze-place .podium-rank {
+            color: var(--bronze);
+        }
+
+        .podium-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .player-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border: 3px solid;
+        }
+
+        .player-avatar.gold {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .player-avatar.silver {
+            background: rgba(192, 192, 192, 0.3);
+            border-color: var(--silver);
+            color: var(--silver);
+        }
+
+        .player-avatar.bronze {
+            background: rgba(205, 127, 50, 0.3);
+            border-color: var(--bronze);
+            color: var(--bronze);
+        }
+
+        .player-avatar.user {
+            background: rgba(57, 255, 20, 0.3);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .player-info {
+            text-align: center;
+        }
+
+        .player-name {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .player-score, .player-games {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+        }
+
+        .podium-medal {
+            font-size: 2rem;
+            margin-top: 15px;
+        }
+
+        .gold-place .podium-medal {
+            color: var(--gold);
+            animation: trophy-spin 5s linear infinite;
+        }
+
+        @keyframes trophy-spin {
+            0%, 100% { transform: rotateY(0); }
+            50% { transform: rotateY(180deg); }
+        }
+
+        .silver-place .podium-medal,
+        .bronze-place .podium-medal {
+            color: var(--crt-text);
+            opacity: 0.8;
+        }
+
+        /* Classement principal */
+        .leaderboard-main {
+            margin-bottom: 30px;
+        }
+
+        .leaderboard-header-row {
+            display: grid;
+            grid-template-columns: 80px 2fr 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .leaderboard-row {
+            grid-template-columns: 80px 2fr 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            transition: all 0.3s;
+        }
+        .leaderboard-row:hover {
+            background: rgba(0, 206, 209, 0.1);
+            transform: translateX(5px);
+        }
+
+        .leaderboard-row.highlight-user {
+            background: rgba(57, 255, 20, 0.15);
+            border-color: var(--neon-green);
+        }
+
+        .rank-cell, .player-cell, .score-cell, .games-cell, .wins-cell, .streak-cell {
+            display: flex;
+            align-items: center;
+        }
+
+        .rank-cell {
+            justify-content: center;
+        }
+
+        .rank-number {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1rem;
+            color: var(--retro-cyan);
+        }
+
+        .user-badge {
+            background: var(--neon-green);
+            color: #000;
+            font-size: 0.6rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .player-cell {
+            gap: 15px;
+        }
+
+        .player-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .player-name {
+            font-size: 0.9rem;
+        }
+
+        .player-tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .player-tag {
+            padding: 2px 8px;
+            font-size: 0.6rem;
+            border-radius: 3px;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .player-tag.pacman {
+            background: rgba(255, 105, 180, 0.3);
+            color: var(--retro-pink);
+        }
+
+        .player-tag.snake {
+            background: rgba(57, 255, 20, 0.3);
+            color: var(--neon-green);
+        }
+
+        .player-tag.tetris {
+            background: rgba(138, 43, 226, 0.3);
+            color: var(--retro-purple);
+        }
+
+        .player-tag.spaceinvaders {
+            background: rgba(0, 206, 209, 0.3);
+            color: var(--retro-cyan);
+        }
+
+        .player-tag.breakout {
+            background: rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+        }
+
+        .score-value, .games-value, .wins-value, .streak-value {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.9rem;
+        }
+
+        .score-progress {
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--crt-text);
+        }
+
+        .progress-bar.small {
+            height: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--retro-cyan), var(--neon-green));
+            transition: width 0.5s ease;
+        }
+
+        .streak-cell {
+            gap: 5px;
+        }
+
+        .streak-icon {
+            color: #FF4757;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+
+        .page-btn {
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--crt-text);
+            border: 2px solid var(--crt-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DotGothic16', monospace;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .page-btn:hover {
+            background: var(--retro-pink);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-number {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--crt-text);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-number.active {
+            background: var(--retro-cyan);
+            color: #000;
+        }
+
+        .page-number:hover:not(.active) {
+            background: var(--retro-pink);
+            color: #000;
+        }
+
+        /* Pied de page */
+        .leaderboard-footer {
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-info {
+            margin-bottom: 15px;
+        }
+
+        .footer-tip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--retro-cyan);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-stats .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--crt-text);
+            font-size: 0.8rem;
+        }
+
+        .footer-stats .stat i {
+            color: var(--retro-pink);
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--crt-text);
+            opacity: 0.6;
+            margin-top: 10px;
+        }
+
+        /* Boutons */
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--retro-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 100;
+            border-color: var(--retro-cyan);
+            font-size: 1.5rem;
+        }
+
+        .refresh-btn:hover {
+            background: var(--retro-cyan);
+            color: #000;
+            transform: rotate(180deg);
+        }
+
+        .refresh-btn.spinning {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Animation de mise à jour */
+        .update-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 206, 209, 0.1);
+            z-index: 90;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #000;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 3px solid var(--neon-green);
+            animation: modal-appear 0.3s ease-out;
+        }
+
+        @keyframes modal-appear {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--retro-cyan);
+        }
+
+        .modal-title {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+
+        .close-modal {
+            font-size: 1.8rem;
+            color: var(--retro-pink);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--neon-green);
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .leaderboard-header-row,
+            .leaderboard-row {
+                grid-template-columns: 60px 2fr 1fr 1fr;
+            }
+            
+            .wins-col, .streak-col,
+            .wins-cell, .streak-cell {
+                display: none;
+            }
+            
+            .podium-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .podium-place {
+                width: 100%;
+                min-height: auto;
+                height: auto !important;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .crt-frame {
+                border: 10px solid #111;
+            }
+            
+            .crt-screen {
+                padding: 15px;
+            }
+            
+            .global-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filter-row, .sort-row {
+                flex-direction: column;
+            }
+            
+            .filter-group, .sort-group, .search-box {
+                min-width: 100%;
+            }
+            
+            .leaderboard-header-row,
+            .leaderboard-row {
+                grid-template-columns: 50px 2fr 1fr;
+            }
+            
+            .games-col, .games-cell {
+                display: none;
+            }
+            
+            .character-display {
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .refresh-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .global-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-buttons, .time-buttons, .sort-buttons {
+                flex-direction: column;
+            }
+            
+            .game-filter-btn, .time-filter-btn, .sort-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .leaderboard-header-row,
+            .leaderboard-row {
+                grid-template-columns: 40px 1fr;
+                font-size: 0.8rem;
+            }
+            
+            .score-col, .score-cell {
+                display: none;
+            }
+            
+            .footer-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* Effet de dégradation CRT */
+        .crt-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 3;
+        }
+    </style>
+
+    <script>
+        // JavaScript pour la page des classements
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Effet d'allumage CRT
+            const crtScreen = document.querySelector('.crt-screen');
+            crtScreen.style.animation = 'crt-power-on 2s ease-out';
+            
+            // Charger les données des classements
+            loadLeaderboardData();
+            
+            // Filtres
+            const gameFilterBtns = document.querySelectorAll('.game-filter-btn');
+            const timeFilterBtns = document.querySelectorAll('.time-filter-btn');
+            const sortBtns = document.querySelectorAll('.sort-btn');
+            const playerSearch = document.getElementById('playerSearch');
+            const refreshBtn = document.getElementById('refreshLeaderboard');
+            
+            let currentGame = 'all';
+            let currentTime = 'all';
+            let currentSort = 'score';
+            let currentPage = 1;
+            let playersPerPage = 10;
+            
+            // Gestion des filtres de jeu
+            gameFilterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    gameFilterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentGame = this.getAttribute('data-game');
+                    updateLeaderboard();
+                    playRetroSound('select');
+                });
+            });
+            
+            // Gestion des filtres de temps
+            timeFilterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    timeFilterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTime = this.getAttribute('data-time');
+                    updateLeaderboard();
+                    playRetroSound('select');
+                });
+            });
+            
+            // Gestion des tris
+            sortBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentSort = this.getAttribute('data-sort');
+                    updateLeaderboard();
+                    playRetroSound('select');
+                });
+            });
+            
+            // Recherche de joueur
+            playerSearch.addEventListener('input', debounce(function() {
+                updateLeaderboard();
+            }, 300));
+            
+            // Actualisation
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', function() {
+                    refreshLeaderboard();
+                    playRetroSound('select');
+                });
+            }
+            
+            // Pagination
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+            const pageNumbers = document.querySelectorAll('.page-number');
+            
+            if (prevPageBtn) {
+                prevPageBtn.addEventListener('click', function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        updateLeaderboard();
+                        playRetroSound('click');
+                    }
+                });
+            }
+            
+            if (nextPageBtn) {
+                nextPageBtn.addEventListener('click', function() {
+                    currentPage++;
+                    updateLeaderboard();
+                    playRetroSound('click');
+                });
+            }
+            
+            pageNumbers.forEach(number => {
+                number.addEventListener('click', function() {
+                    const page = parseInt(this.textContent);
+                    if (page !== currentPage) {
+                        currentPage = page;
+                        updateLeaderboard();
+                        playRetroSound('click');
+                    }
+                });
+            });
+            
+            // Modal de détails du joueur
+            const playerModal = document.getElementById('playerModal');
+            const closeModal = document.querySelector('.close-modal');
+            
+            // Fermer le modal
+            if (closeModal) {
+                closeModal.addEventListener('click', function() {
+                    playerModal.style.display = 'none';
+                    playRetroSound('click');
+                });
+            }
+            
+            // Fermer le modal en cliquant dehors
+            window.addEventListener('click', function(event) {
+                if (event.target === playerModal) {
+                    playerModal.style.display = 'none';
+                    playRetroSound('click');
+                }
+            });
+            
+            // Charger les données des classements
+            function loadLeaderboardData() {
+                try {
+                    // Récupérer les scores depuis localStorage
+                    const scoresJson = localStorage.getItem('arcadeHighScores');
+                    let scores = scoresJson ? JSON.parse(scoresJson) : [];
+                    
+                    // Si pas de scores, créer des données de démo
+                    if (scores.length === 0) {
+                        scores = generateDemoData();
+                        localStorage.setItem('arcadeHighScores', JSON.stringify(scores));
+                    }
+                    
+                    // Calculer les statistiques globales
+                    calculateGlobalStats(scores);
+                    
+                    // Mettre à jour le classement
+                    updateLeaderboard(scores);
+                    
+                    // Mettre à jour la position de l'utilisateur
+                    updateUserPosition(scores);
+                    
+                    // Démarrer le compte à rebours d'actualisation
+                    startRefreshCountdown();
+                    
+                } catch (error) {
+                    console.error('Erreur de chargement des classements:', error);
+                    // Afficher un message d'erreur
+                    showErrorMessage("Erreur de chargement des données");
+                }
+            }
+            
+            // Générer des données de démo
+            function generateDemoData() {
+                const games = ['pacman', 'snake', 'tetris', 'spaceinvaders', 'breakout'];
+                const players = [
+                    { name: 'RETRO_KING', color: '#FFD700' },
+                    { name: 'ARCADE_MASTER', color: '#C0C0C0' },
+                    { name: 'GAME_NINJA', color: '#CD7F32' },
+                    { name: 'GHOST_HUNTER', color: '#FF69B4' },
+                    { name: 'TETRIS_PRO', color: '#8A2BE2' },
+                    { name: 'SPACE_COWBOY', color: '#00CED1' },
+                    { name: 'BREAKOUT_KING', color: '#FFD700' },
+                    { name: 'SNAKE_EYES', color: '#39FF14' },
+                    { name: 'PAC_FAN', color: '#FF69B4' },
+                    { name: 'RETRO_NEWBIE', color: '#FFFFFF' }
+                ];
+                
+                const scores = [];
+                const currentUser = localStorage.getItem('arcadeUsername') || 'YOU';
+                
+                // Ajouter le joueur actuel
+                players.push({ name: currentUser, color: '#39FF14' });
+                
+                // Générer des scores pour chaque joueur
+                players.forEach((player, index) => {
+                    const playerGames = Math.floor(Math.random() * 5) + 1;
+                    const gameIndices = Array.from({ length: playerGames }, 
+                        () => Math.floor(Math.random() * games.length));
+                    
+                    gameIndices.forEach(gameIndex => {
+                        const scoreValue = Math.floor(Math.random() * 10000) + 5000;
+                        const wins = Math.floor(Math.random() * 50) + 1;
+                        const gamesPlayed = wins + Math.floor(Math.random() * 50);
+                        
+                        scores.push({
+                            username: player.name,
+                            game: games[gameIndex],
+                            score: scoreValue,
+                            wins: wins,
+                            games: gamesPlayed,
+                            streak: Math.floor(Math.random() * 10) + 1,
+                            date: getRandomDate(),
+                            playerColor: player.color
+                        });
+                    });
+                });
+                
+                return scores;
+            }
+            
+            function getRandomDate() {
+                const now = new Date();
+                const pastDate = new Date(now);
+                pastDate.setDate(now.getDate() - Math.floor(Math.random() * 30));
+                return pastDate.toISOString();
+            }
+            
+            // Calculer les statistiques globales
+            function calculateGlobalStats(scores) {
+                try {
+                    // Nombre de joueurs uniques
+                    const uniquePlayers = [...new Set(scores.map(s => s.username))];
+                    document.getElementById('totalPlayers').textContent = uniquePlayers.length;
+                    
+                    // Nombre total de parties
+                    const totalGames = scores.reduce((sum, score) => sum + score.games, 0);
+                    document.getElementById('totalGames').textContent = totalGames;
+                    
+                    // Score total
+                    const totalScore = scores.reduce((sum, score) => sum + score.score, 0);
+                    document.getElementById('totalScore').textContent = totalScore.toLocaleString();
+                    
+                    // Meilleur score
+                    const topScore = Math.max(...scores.map(s => s.score));
+                    document.getElementById('topScore').textContent = topScore.toLocaleString();
+                    
+                } catch (error) {
+                    console.error('Erreur de calcul des statistiques:', error);
+                }
+            }
+            
+            // Mettre à jour le classement
+            function updateLeaderboard(scoresData = null) {
+                try {
+                    // Récupérer les scores
+                    let scores = scoresData;
+                    if (!scores) {
+                        const scoresJson = localStorage.getItem('arcadeHighScores');
+                        scores = scoresJson ? JSON.parse(scoresJson) : generateDemoData();
+                    }
+                    
+                    // Appliquer les filtres
+                    let filteredScores = [...scores];
+                    
+                    // Filtre par jeu
+                    if (currentGame !== 'all') {
+                        filteredScores = filteredScores.filter(score => score.game === currentGame);
+                    }
+                    
+                    // Filtre par période
+                    if (currentTime !== 'all') {
+                        const now = new Date();
+                        let cutoffDate = new Date(now);
+                        
+                        switch(currentTime) {
+                            case 'month':
+                                cutoffDate.setMonth(now.getMonth() - 1);
+                                break;
+                            case 'week':
+                                cutoffDate.setDate(now.getDate() - 7);
+                                break;
+                            case 'today':
+                                cutoffDate.setHours(0, 0, 0, 0);
+                                break;
+                        }
+                        
+                        filteredScores = filteredScores.filter(score => {
+                            const scoreDate = new Date(score.date);
+                            return scoreDate >= cutoffDate;
+                        });
+                    }
+                    
+                    // Filtre par recherche
+                    const searchTerm = playerSearch.value.toLowerCase();
+                    if (searchTerm) {
+                        filteredScores = filteredScores.filter(score => 
+                            score.username.toLowerCase().includes(searchTerm)
+                        );
+                    }
+                    
+                    // Grouper les scores par joueur
+                    const playerStats = {};
+                    
+                    filteredScores.forEach(score => {
+                        if (!playerStats[score.username]) {
+                            playerStats[score.username] = {
+                                username: score.username,
+                                totalScore: 0,
+                                totalGames: 0,
+                                totalWins: 0,
+                                bestStreak: 0,
+                                games: [],
+                                playerColor: score.playerColor
+                            };
+                        }
+                        
+                        playerStats[score.username].totalScore += score.score;
+                        playerStats[score.username].totalGames += score.games;
+                        playerStats[score.username].totalWins += score.wins;
+                        playerStats[score.username].bestStreak = Math.max(
+                            playerStats[score.username].bestStreak,
+                            score.streak
+                        );
+                        playerStats[score.username].games.push(score.game);
+                    });
+                    
+                    // Convertir en tableau et trier
+                    let playersArray = Object.values(playerStats);
+                    
+                    switch(currentSort) {
+                        case 'score':
+                            playersArray.sort((a, b) => b.totalScore - a.totalScore);
+                            break;
+                        case 'games':
+                            playersArray.sort((a, b) => b.totalGames - a.totalGames);
+                            break;
+                        case 'wins':
+                            playersArray.sort((a, b) => b.totalWins - a.totalWins);
+                            break;
+                        case 'streak':
+                            playersArray.sort((a, b) => b.bestStreak - a.bestStreak);
+                            break;
+                    }
+                    
+                    // Mettre à jour le top 3
+                    updateTopThree(playersArray);
+                    
+                    // Mettre à jour la liste
+                    updateLeaderboardList(playersArray);
+                    
+                    // Mettre à jour la pagination
+                    updatePagination(playersArray.length);
+                    
+                    // Mettre à jour la position de l'utilisateur
+                    updateUserPosition(scores);
+                    
+                } catch (error) {
+                    console.error('Erreur de mise à jour du classement:', error);
+                    console.log("Erreur d'affichage du classement");
+                }
+            }
+            
+            // Mettre à jour le top 3
+            function updateTopThree(playersArray) {
+                const goldPlace = document.querySelector('.gold-place');
+                const silverPlace = document.querySelector('.silver-place');
+                const bronzePlace = document.querySelector('.bronze-place');
+                
+                // Mettre à jour le podium
+                [goldPlace, silverPlace, bronzePlace].forEach((podium, index) => {
+                    if (playersArray[index]) {
+                        const player = playersArray[index];
+                        const avatar = podium.querySelector('.player-avatar');
+                        const name = podium.querySelector('.player-name');
+                        const score = podium.querySelector('.player-score span');
+                        const games = podium.querySelector('.player-games span');
+                        
+                        avatar.innerHTML = index === 0 ? '<i class="fas fa-crown"></i>' : '<i class="fas fa-user"></i>';
+                        name.textContent = player.username;
+                        score.textContent = player.totalScore.toLocaleString();
+                        games.textContent = `${player.totalGames} parties`;
+                        
+                        // Ajouter des couleurs pour les tags de jeu
+                        const gameTags = [...new Set(player.games)];
+                        const gameNames = {
+                            'pacman': 'PAC-ROMÂN',
+                            'snake': 'ȘARPE',
+                            'tetris': 'TETRIS',
+                            'spaceinvaders': 'SPACE INV',
+                            'breakout': 'BREAKOUT'
+                        };
+                        
+                        // Animation pour le numéro 1
+                        if (index === 0) {
+                            avatar.style.animation = 'trophy-spin 5s linear infinite';
+                        }
+                    }
+                });
+            }
+            
+            // Mettre à jour la liste du classement
+            function updateLeaderboardList(playersArray) {
+                const leaderboardList = document.getElementById('leaderboardList');
+                const startIndex = (currentPage - 1) * playersPerPage;
+                const endIndex = startIndex + playersPerPage;
+                const currentPlayers = playersArray.slice(startIndex, endIndex);
+                
+                let html = '';
+                const currentUser = localStorage.getItem('arcadeUsername') || 'YOU';
+                
+                currentPlayers.forEach((player, index) => {
+                    const globalRank = startIndex + index + 1;
+                    const isCurrentUser = player.username === currentUser;
+                    
+                    // Obtenir les jeux uniques du joueur
+                    const gameTags = [...new Set(player.games)];
+                    const gameNames = {
+                        'pacman': 'PAC-ROMÂN',
+                        'snake': 'ȘARPE',
+                        'tetris': 'TETRIS',
+                        'spaceinvaders': 'SPACE INV',
+                        'breakout': 'BREAKOUT'
+                    };
+                    
+                    // Calculer le pourcentage du meilleur score
+                    const bestScore = playersArray[0] ? playersArray[0].totalScore : player.totalScore;
+                    const scorePercentage = (player.totalScore / bestScore) * 100;
+                    
+                    html += `
+                        <div class="leaderboard-row pixel-border ${isCurrentUser ? 'highlight-user' : ''}">
+                            <div class="rank-cell">
+                                <span class="rank-number">#${globalRank}</span>
+                                ${isCurrentUser ? '<div class="user-badge">VOUS</div>' : ''}
+                            </div>
+                            <div class="player-cell">
+                                <div class="player-avatar ${isCurrentUser ? 'user' : ''}">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="player-details">
+                                    <div class="player-name pixel-text">${player.username}</div>
+                                    <div class="player-tags">
+                                        ${gameTags.slice(0, 2).map(game => 
+                                            `<span class="player-tag ${game}">${gameNames[game] || game}</span>`
+                                        ).join('')}
+                                        ${gameTags.length > 2 ? 
+                                            `<span class="player-tag">+${gameTags.length - 2}</span>` : 
+                                            ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="score-cell">
+                                <span class="score-value">${player.totalScore.toLocaleString()}</span>
+                                <div class="score-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: ${scorePercentage}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="games-cell">
+                                <span class="games-value">${player.totalGames}</span>
+                            </div>
+                            <div class="wins-cell">
+                                <span class="wins-value">${player.totalWins}</span>
+                            </div>
+                            <div class="streak-cell">
+                                <span class="streak-value">${player.bestStreak}</span>
+                                <i class="fas fa-fire streak-icon"></i>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                leaderboardList.innerHTML = html;
+                
+                // Ajouter des écouteurs d'événements pour les lignes
+                const rows = document.querySelectorAll('.leaderboard-row');
+                rows.forEach(row => {
+                    row.addEventListener('click', function() {
+                        const playerName = this.querySelector('.player-name').textContent;
+                        showPlayerDetails(playerName);
+                    });
+                });
+            }
+            
+            // Mettre à jour la pagination
+            function updatePagination(totalPlayers) {
+                const totalPages = Math.ceil(totalPlayers / playersPerPage);
+                const pageNumbers = document.querySelector('.page-numbers');
+                const prevBtn = document.getElementById('prevPage');
+                const nextBtn = document.getElementById('nextPage');
+                
+                // Mettre à jour les boutons précédent/suivant
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+                
+                // Mettre à jour les numéros de page
+                let pageHtml = '';
+                const maxPagesToShow = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+                
+                if (endPage - startPage + 1 < maxPagesToShow) {
+                    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    pageHtml += `
+                        <span class="page-number ${i === currentPage ? 'active' : ''}">
+                            ${i}
+                        </span>
+                    `;
+                }
+                
+                pageNumbers.innerHTML = pageHtml;
+                
+                // Réattacher les écouteurs d'événements
+                const pageNumberElements = document.querySelectorAll('.page-number');
+                pageNumberElements.forEach(number => {
+                    number.addEventListener('click', function() {
+                        const page = parseInt(this.textContent);
+                        if (page !== currentPage) {
+                            currentPage = page;
+                            updateLeaderboard();
+                            playRetroSound('click');
+                        }
+                    });
+                });
+            }
+            
+            // Mettre à jour la position de l'utilisateur
+            function updateUserPosition(scores) {
+                try {
+                    const currentUser = localStorage.getItem('arcadeUsername') || 'YOU';
+                    
+                    // Calculer le score total de l'utilisateur
+                    const userScores = scores.filter(score => score.username === currentUser);
+                    const userTotalScore = userScores.reduce((sum, score) => sum + score.score, 0);
+                    const userTotalGames = userScores.reduce((sum, score) => sum + score.games, 0);
+                    const userTotalWins = userScores.reduce((sum, score) => sum + score.wins, 0);
+                    
+                    // Trouver le rang
+                    const allScores = scores.reduce((acc, score) => {
+                        if (!acc[score.username]) {
+                            acc[score.username] = { totalScore: 0, totalGames: 0 };
+                        }
+                        acc[score.username].totalScore += score.score;
+                        acc[score.username].totalGames += score.games;
+                        return acc;
+                    }, {});
+                    
+                    const rankedPlayers = Object.entries(allScores)
+                        .map(([username, stats]) => ({
+                            username,
+                            totalScore: stats.totalScore,
+                            totalGames: stats.totalGames
+                        }))
+                        .sort((a, b) => b.totalScore - a.totalScore);
+                    
+                    const userRank = rankedPlayers.findIndex(p => p.username === currentUser) + 1;
+                    const totalPlayers = rankedPlayers.length;
+                    
+                    // Mettre à jour l'affichage
+                    const userPositionDiv = document.querySelector('.user-position');
+                    if (userPositionDiv) {
+                        userPositionDiv.innerHTML = `
+                            <h3>TA POSITION</h3>
+                            <div class="user-rank-display pixel-border">
+                                <div class="user-rank-header">
+                                    <div class="user-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="user-name pixel-text">${currentUser}</div>
+                                </div>
+                                <div class="user-rank-stats">
+                                    <div class="user-stat">
+                                        <span class="stat-label">RANG</span>
+                                        <span class="stat-value">#${userRank || '--'}</span>
+                                    </div>
+                                    <div class="user-stat">
+                                        <span class="stat-label">SCORE</span>
+                                        <span class="stat-value">${userTotalScore.toLocaleString()}</span>
+                                    </div>
+                                    <div class="user-stat">
+                                        <span class="stat-label">PARTIES</span>
+                                        <span class="stat-value">${userTotalGames}</span>
+                                    </div>
+                                    <div class="user-stat">
+                                        <span class="stat-label">VICTOIRES</span>
+                                        <span class="stat-value">${userTotalWins}</span>
+                                    </div>
+                                </div>
+                                <div class="user-rank-footer">
+                                    <div class="rank-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: ${((totalPlayers - userRank + 1) / totalPlayers) * 100}%"></div>
+                                        </div>
+                                        <div class="progress-text">
+                                            Top ${Math.round((totalPlayers - userRank + 1) / totalPlayers * 100)}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                } catch (error) {
+                    console.error('Erreur de calcul de la position:', error);
+                }
+            }
+            
+            // Afficher les détails d'un joueur
+            function showPlayerDetails(playerName) {
+                try {
+                    const scoresJson = localStorage.getItem('arcadeHighScores');
+                    const scores = scoresJson ? JSON.parse(scoresJson) : [];
+                    
+                    const playerScores = scores.filter(score => score.username === playerName);
+                    const playerGames = [...new Set(playerScores.map(score => score.game))];
+                    
+                    // Calculer les totaux
+                    const totalScore = playerScores.reduce((sum, score) => sum + score.score, 0);
+                    const totalGames = playerScores.reduce((sum, score) => sum + score.games, 0);
+                    const totalWins = playerScores.reduce((sum, score) => sum + score.wins, 0);
+                    const bestStreak = Math.max(...playerScores.map(score => score.streak));
+                    
+                    // Préparer le HTML
+                    const modalBody = document.getElementById('modalPlayerDetails');
+                    modalBody.innerHTML = `
+                        <div class="player-modal-content">
+                            <div class="player-modal-header">
+                                <div class="modal-player-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="modal-player-info">
+                                    <h4 class="modal-player-name pixel-text">${playerName}</h4>
+                                    <div class="modal-player-rank">
+                                        <i class="fas fa-trophy"></i>
+                                        <span>ÉLITE DE L'ARCADE</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="player-modal-stats">
+                                <div class="modal-stat-card">
+                                    <div class="modal-stat-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="modal-stat-content">
+                                        <div class="modal-stat-value">${totalScore.toLocaleString()}</div>
+                                        <div class="modal-stat-label">SCORE TOTAL</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-stat-card">
+                                    <div class="modal-stat-icon">
+                                        <i class="fas fa-gamepad"></i>
+                                    </div>
+                                    <div class="modal-stat-content">
+                                        <div class="modal-stat-value">${totalGames}</div>
+                                        <div class="modal-stat-label">PARTIES</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-stat-card">
+                                    <div class="modal-stat-icon">
+                                        <i class="fas fa-flag-checkered"></i>
+                                    </div>
+                                    <div class="modal-stat-content">
+                                        <div class="modal-stat-value">${totalWins}</div>
+                                        <div class="modal-stat-label">VICTOIRES</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-stat-card">
+                                    <div class="modal-stat-icon">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="modal-stat-content">
+                                        <div class="modal-stat-value">${bestStreak}</div>
+                                        <div class="modal-stat-label">MEILLEURE SÉRIE</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="player-modal-games">
+                                <h5 class="games-title pixel-text">JEUX MAÎTRISÉS</h5>
+                                <div class="games-list">
+                                    ${playerGames.map(game => {
+                                        const gameScores = playerScores.filter(s => s.game === game);
+                                        const gameTotalScore = gameScores.reduce((sum, s) => sum + s.score, 0);
+                                        const gameTotalGames = gameScores.reduce((sum, s) => sum + s.games, 0);
+                                        const gameWins = gameScores.reduce((sum, s) => sum + s.wins, 0);
+                                        const gameNames = {
+                                            'pacman': 'PAC-ROMÂN',
+                                            'snake': 'ȘARPE',
+                                            'tetris': 'TETRIS',
+                                            'spaceinvaders': 'SPACE INVADERS',
+                                            'breakout': 'BREAKOUT'
+                                        };
+                                        const gameIcons = {
+                                            'pacman': 'fas fa-ghost',
+                                            'snake': 'fas fa-snake',
+                                            'tetris': 'fas fa-th-large',
+                                            'spaceinvaders': 'fas fa-rocket',
+                                            'breakout': 'fas fa-baseball-ball'
+                                        };
+                                        return `
+                                            <div class="game-stat pixel-border">
+                                                <div class="game-icon">
+                                                    <i class="${gameIcons[game]}"></i>
+                                                </div>
+                                                <div class="game-info">
+                                                    <div class="game-name">${gameNames[game] || game}</div>
+                                                    <div class="game-stats">
+                                                        <span class="game-stat-value">${gameTotalScore.toLocaleString()}</span>
+                                                        <span class="game-stat-label">points</span>
+                                                    </div>
+                                                </div>
+                                                <div class="game-wins">
+                                                    <span class="wins-count">${gameWins}</span>
+                                                    <span class="wins-label">victoires</span>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="player-modal-footer">
+                                <div class="player-joined">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Joue depuis 30 jours</span>
+                                </div>
+                                <div class="player-activity">
+                                    <i class="fas fa-signal"></i>
+                                    <span>Actif cette semaine</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Afficher le modal
+                    playerModal.style.display = 'flex';
+                    playRetroSound('success');
+                    
+                } catch (error) {
+                    console.error('Erreur d\'affichage des détails:', error);
+                    showErrorMessage("Impossible d'afficher les détails du joueur");
+                }
+            }
+            
+            // Actualiser le classement
+            function refreshLeaderboard() {
+                const refreshBtn = document.getElementById('refreshLeaderboard');
+                const updateAnimation = document.getElementById('updateAnimation');
+                
+                // Animation du bouton
+                refreshBtn.classList.add('spinning');
+                updateAnimation.style.opacity = '1';
+                
+                // Simuler un chargement
+                setTimeout(() => {
+                    loadLeaderboardData();
+                    
+                    // Arrêter l'animation
+                    refreshBtn.classList.remove('spinning');
+                    updateAnimation.style.opacity = '0';
+                    
+                    // Animation de succès
+                    showUpdateAnimation();
+                    
+                    // Mettre à jour l'heure de dernière mise à jour
+                    document.getElementById('lastUpdate').textContent = 'Maintenant';
+                    playRetroSound('success');
+                    
+                }, 1500);
+            }
+            
+            // Animation de mise à jour
+            function showUpdateAnimation() {
+                const animation = document.createElement('div');
+                animation.className = 'update-success';
+                animation.innerHTML = '<i class="fas fa-check"></i> CLASSEMENT MIS À JOUR';
+                animation.style.position = 'fixed';
+                animation.style.top = '20px';
+                animation.style.right = '20px';
+                animation.style.background = '#000';
+                animation.style.padding = '15px';
+                animation.style.border = '2px solid var(--neon-green)';
+                animation.style.color = 'var(--neon-green)';
+                animation.style.fontFamily = 'Press Start 2P, monospace';
+                animation.style.fontSize = '0.8rem';
+                animation.style.zIndex = '1000';
+                animation.style.opacity = '0';
+                animation.style.transform = 'translateY(-20px)';
+                
+                document.body.appendChild(animation);
+                
+                // Animation d'entrée
+                setTimeout(() => {
+                    animation.style.opacity = '1';
+                    animation.style.transform = 'translateY(0)';
+                }, 10);
+                
+                // Animation de sortie
+                setTimeout(() => {
+                    animation.style.opacity = '0';
+                    animation.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        if (animation.parentNode) {
+                            animation.parentNode.removeChild(animation);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Démarrer le compte à rebours d'actualisation
+            function startRefreshCountdown() {
+                let countdown = 30;
+                const countdownElement = document.getElementById('refreshCountdown');
+                const updateInterval = setInterval(() => {
+                    countdown--;
+                    if (countdownElement) {
+                        countdownElement.textContent = countdown;
+                    }
+                    
+                    if (countdown <= 0) {
+                        // Actualiser automatiquement
+                        refreshLeaderboard();
+                        countdown = 30;
+                    }
+                }, 1000);
+            }
+            
+            // Fonction de debounce pour la recherche
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+            
+            // Afficher un message d'erreur
+            function showErrorMessage(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message pixel-border';
+                errorDiv.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>${message}</span>
+                `;
+                errorDiv.style.position = 'fixed';
+                errorDiv.style.top = '20px';
+                errorDiv.style.left = '50%';
+                errorDiv.style.transform = 'translateX(-50%)';
+                errorDiv.style.background = '#000';
+                errorDiv.style.padding = '15px';
+                errorDiv.style.borderColor = '#FF4757';
+                errorDiv.style.color = '#FF4757';
+                errorDiv.style.zIndex = '1000';
+                errorDiv.style.textAlign = 'center';
+                errorDiv.style.minWidth = '300px';
+                
+                document.body.appendChild(errorDiv);
+                
+                // Supprimer après 5 secondes
+                setTimeout(() => {
+                    if (errorDiv.parentNode) {
+                        errorDiv.parentNode.removeChild(errorDiv);
+                    }
+                }, 5000);
+            }
+            
+            // Simulation de sons rétro
+            function playRetroSound(type) {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    switch(type) {
+                        case 'select':
+                            playBeep(audioContext, 800, 100, 0.2);
+                            break;
+                        case 'click':
+                            playBeep(audioContext, 600, 50, 0.1);
+                            break;
+                        case 'success':
+                            playSuccessSound(audioContext);
+                            break;
+                        case 'error':
+                            playErrorSound(audioContext);
+                            break;
+                    }
+                } catch (e) {
+                    console.log('Audio context non supporté');
+                }
+            }
+            
+            function playBeep(audioContext, frequency, duration, volume) {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration / 1000);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+            }
+            
+            function playSuccessSound(audioContext) {
+                const frequencies = [800, 1200, 1600];
+                const duration = 100;
+                
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(audioContext, freq, duration, 0.2);
+                    }, index * duration);
+                });
+            }
+            
+            function playErrorSound(audioContext) {
+                const frequencies = [400, 300, 200];
+                const duration = 150;
+                
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(audioContext, freq, duration, 0.2);
+                    }, index * duration);
+                });
+            }
+            
+            // Effet de bruit CRT aléatoire
+            function randomCRTNoise() {
+                const noise = document.querySelector('.tv-noise');
+                if (noise) {
+                    setInterval(() => {
+                        const randomX = Math.random() * 10;
+                        const randomY = Math.random() * 10;
+                        noise.style.backgroundPosition = `${randomX}px ${randomY}px`;
+                    }, 50);
+                }
+            }
+            
+            // Effet de scintillement aléatoire
+            setInterval(() => {
+                const pixelTexts = document.querySelectorAll('.pixel-text');
+                const randomText = pixelTexts[Math.floor(Math.random() * pixelTexts.length)];
+                if (randomText) {
+                    randomText.style.opacity = '0.7';
+                    setTimeout(() => {
+                        randomText.style.opacity = '1';
+                    }, 100);
+                }
+            }, 300);
+            
+            // Animation des médailles
+            setInterval(() => {
+                const medals = document.querySelectorAll('.podium-medal i');
+                medals.forEach(medal => {
+                    if (Math.random() < 0.3) {
+                        medal.style.transform = 'scale(1.2)';
+                        medal.style.color = 'var(--neon-green)';
+                        setTimeout(() => {
+                            medal.style.transform = '';
+                            medal.style.color = '';
+                        }, 500);
+                    }
+                });
+            }, 2000);
+            
+            // Effet de vibration sur hover
+            const buttons = document.querySelectorAll('.nav-btn, .game-filter-btn, .time-filter-btn, .sort-btn, .page-btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-2px) scale(1.05)';
+                    playRetroSound('click');
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = '';
+                });
+            });
+            
+            // Message aléatoire dans le titre
+            const leaderboardMessages = [
+                "CLASSEMENTS EN DIRECT",
+                "DÉFIEZ LES MEILLEURS !",
+                "HALL OF FAME ARCADE",
+                "ÉLITE DES JOUEURS",
+                "COMPÉTITION EN COURS"
+            ];
+            
+            const navTitle = document.querySelector('.nav-title');
+            if (navTitle) {
+                setInterval(() => {
+                    const randomMsg = leaderboardMessages[Math.floor(Math.random() * leaderboardMessages.length)];
+                    navTitle.innerHTML = `<i class="fas fa-crown"></i> ${randomMsg}`;
+                    setTimeout(() => {
+                        navTitle.innerHTML = `<i class="fas fa-crown"></i> CLASSEMENTS ARCADE`;
+                    }, 3000);
+                }, 15000);
+            }
+            
+            // Mettre à jour les joueurs en ligne
+            function updateOnlinePlayers() {
+                const onlineElement = document.getElementById('onlinePlayers');
+                if (onlineElement) {
+                    const basePlayers = 42;
+                    const randomVariation = Math.floor(Math.random() * 10) - 5;
+                    onlineElement.textContent = Math.max(1, basePlayers + randomVariation);
+                }
+            }
+            
+            // Initialisation
+            randomCRTNoise();
+            updateOnlinePlayers();
+            setInterval(updateOnlinePlayers, 30000);
+            
+            // Effet d'allumage CRT
+            setTimeout(() => {
+                crtScreen.style.animation = '';
+            }, 2000);
+            
+            // Ajouter le style CSS pour les animations
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Animation d'apparition CRT */
+                @keyframes crt-power-on {
+                    0% {
+                        opacity: 0;
+                        transform: scale(0.95);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
+                
+                /* Style pour le modal joueur */
+                .player-modal-content {
+                    max-height: 70vh;
+                    overflow-y: auto;
+                }
+                
+                .player-modal-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 30px;
+                }
+                
+                .modal-player-avatar {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    background: rgba(0, 206, 209, 0.3);
+                    border: 3px solid var(--retro-cyan);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: var(--retro-cyan);
+                }
+                
+                .modal-player-info {
+                    flex: 1;
+                }
+                
+                .modal-player-name {
+                    font-size: 1.5rem;
+                    color: var(--neon-green);
+                    margin-bottom: 10px;
+                }
+                
+                .modal-player-rank {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    color: var(--gold);
+                    font-size: 0.9rem;
+                }
+                
+                .player-modal-stats {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 15px;
+                    margin-bottom: 30px;
+                }
+                
+                .modal-stat-card {
+                    padding: 15px;
+                    background: rgba(0, 0, 0, 0.5);
+                    border: 2px solid var(--crt-text);
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                }
+                
+                .modal-stat-icon {
+                    font-size: 1.5rem;
+                    color: var(--retro-pink);
+                }
+                
+                .modal-stat-value {
+                    font-family: 'Press Start 2P', monospace;
+                    font-size: 1.2rem;
+                    color: var(--neon-green);
+                    margin-bottom: 5px;
+                }
+                
+                .modal-stat-label {
+                    font-size: 0.7rem;
+                    color: var(--crt-text);
+                    opacity: 0.8;
+                }
+                
+                .player-modal-games {
+                    margin-bottom: 30px;
+                }
+                
+                .games-title {
+                    color: var(--retro-cyan);
+                    margin-bottom: 15px;
+                    font-size: 1rem;
+                }
+                
+                .games-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                
+                .game-stat {
+                    display: flex;
+                    align-items: center;
+                    padding: 12px;
+                    background: rgba(0, 0, 0, 0.3);
+                }
+                
+                .game-icon {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 8px;
+                    background: rgba(0, 206, 209, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                    color: var(--retro-cyan);
+                    margin-right: 15px;
+                }
+                
+                .game-info {
+                    flex: 1;
+                }
+                
+                .game-name {
+                    font-weight: bold;
+                    color: var(--crt-text);
+                    margin-bottom: 5px;
+                    font-size: 0.9rem;
+                }
+                
+                .game-stats {
+                    font-size: 0.8rem;
+                    color: var(--crt-text);
+                    opacity: 0.7;
+                }
+                
+                .game-wins {
+                    text-align: right;
+                }
+                
+                .wins-count {
+                    font-family: 'Press Start 2P', monospace;
+                    font-size: 1.2rem;
+                    color: var(--neon-green);
+                    display: block;
+                }
+                
+                .wins-label {
+                    font-size: 0.7rem;
+                    color: var(--crt-text);
+                    opacity: 0.7;
+                }
+                
+                .player-modal-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    padding-top: 15px;
+                    border-top: 1px solid var(--crt-gray);
+                    font-size: 0.8rem;
+                    color: var(--crt-text);
+                    opacity: 0.8;
+                }
+                
+                .player-joined, .player-activity {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+                
+                /* User rank display */
+                .user-rank-display {
+                    padding: 20px;
+                    background: rgba(0, 0, 0, 0.5);
+                }
+                
+                .user-rank-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    margin-bottom: 20px;
+                }
+                
+                .user-avatar {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    background: rgba(57, 255, 20, 0.3);
+                    border: 2px solid var(--neon-green);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.5rem;
+                    color: var(--neon-green);
+                }
+                
+                .user-rank-stats {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 15px;
+                    margin-bottom: 20px;
+                }
+                
+                .user-stat {
+                    padding: 10px;
+                    background: rgba(0, 0, 0, 0.7);
+                    border: 1px solid var(--crt-text);
+                }
+                
+                .user-stat .stat-label {
+                    display: block;
+                    font-size: 0.7rem;
+                    color: var(--crt-text);
+                    opacity: 0.8;
+                    margin-bottom: 5px;
+                }
+                
+                .user-stat .stat-value {
+                    font-family: 'Press Start 2P', monospace;
+                    font-size: 1rem;
+                    color: var(--neon-green);
+                }
+                
+                .rank-progress {
+                    margin-top: 10px;
+                }
+                
+                .progress-text {
+                    font-size: 0.7rem;
+                    color: var(--crt-text);
+                    opacity: 0.8;
+                    margin-top: 5px;
+                    text-align: center;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Initialisation finale
+            loadLeaderboardData();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - Arcade Retro</title>
+    <link rel="stylesheet" href="joueur.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --retro-cyan: #00CED1;
+            --retro-pink: #FF69B4;
+            --retro-purple: #8A2BE2;
+            --neon-green: #39FF14;
+            --crt-black: #0A0A0A;
+            --crt-dark: #1A1A2E;
+            --crt-gray: #2D2D44;
+            --crt-text: #E0E0FF;
+            --crt-glow: rgba(0, 206, 209, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- CRT TV Frame -->
+    <div class="crt-frame">
+        <div class="crt-screen">
+            <!-- Effets CRT -->
+            <div class="tube-lines"></div>
+            <div class="scanlines"></div>
+            <div class="glare"></div>
+            <div class="pixel-grid"></div>
+            <div class="tv-noise"></div>
+            
+            <!-- Navigation -->
+            <nav class="joueur-nav pixel-border">
+                <a href="index.html" class="nav-btn pixel-border">
+                    <i class="fas fa-arrow-left"></i> RETOUR
+                </a>
+                <h1 class="nav-title pixel-text">
+                    <i class="fas fa-user-secret"></i> PROFIL JOUEUR
+                </h1>
+                <a href="arcade.html" class="nav-btn pixel-border">
+                    <i class="fas fa-gamepad"></i> JOUER
+                </a>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="joueur-container">
+                <!-- Profile Header avec personnage anime -->
+                <section class="profile-section">
+                    <div class="profile-header pixel-border" id="profileHeader">
+                        <div class="anime-profile">
+                            <div class="character-display">
+                                <div class="character-sprite" id="playerSprite"></div>
+                                <div class="level-indicator">
+                                    <div class="level-text">LVL <span id="playerLevel">1</span></div>
+                                    <div class="level-bar">
+                                        <div class="level-fill" id="levelProgress"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <h2 class="pixel-text" id="usernameDisplay">JOUEUR_01</h2>
+                                <div class="profile-stats">
+                                    <div class="stat-chip pixel-border">
+                                        <i class="fas fa-coins"></i>
+                                        <span id="tokenCount">1000</span> <span class="stat-label">JETONS</span>
+                                    </div>
+                                    <div class="stat-chip pixel-border">
+                                        <i class="fas fa-trophy"></i>
+                                        <span id="totalScore">0</span> <span class="stat-label">SCORE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Paramètres -->
+                <section class="settings-section">
+                    <h3 class="section-title pixel-border">
+                        <i class="fas fa-cog"></i> <span class="pixel-text">CONFIGURATION</span>
+                    </h3>
+                    
+                    <div class="setting-item pixel-border">
+                        <div class="setting-header">
+                            <i class="fas fa-user-edit"></i>
+                            <span class="setting-label">IDENTITÉ JOUEUR</span>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-field pixel-border">
+                                <input type="text" id="usernameInput" placeholder="ENTREZ PSEUDO (MAX 12)" maxlength="12">
+                                <div class="input-chars">
+                                    <span id="charCount">0</span>/12
+                                </div>
+                            </div>
+                            <button id="saveUsernameBtn" class="btn-action pixel-border">
+                                <i class="fas fa-floppy-disk"></i> SAUVEGARDER
+                            </button>
+                        </div>
+                        <div class="input-hint">
+                            <i class="fas fa-info-circle"></i> Ce pseudo apparaîtra dans les classements
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item pixel-border">
+                        <div class="setting-header">
+                            <i class="fas fa-palette"></i>
+                            <span class="setting-label">APPARENCE PERSONNAGE</span>
+                        </div>
+                        <div class="color-picker">
+                            <div class="color-option" data-color="cyan">
+                                <div class="color-sample cyan"></div>
+                                <span>CYAN</span>
+                            </div>
+                            <div class="color-option" data-color="pink">
+                                <div class="color-sample pink"></div>
+                                <span>ROSE</span>
+                            </div>
+                            <div class="color-option" data-color="purple">
+                                <div class="color-sample purple"></div>
+                                <span>VIOLET</span>
+                            </div>
+                            <div class="color-option" data-color="green">
+                                <div class="color-sample green"></div>
+                                <span>VERT</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Statistiques -->
+                <section class="stats-section">
+                    <h3 class="section-title pixel-border">
+                        <i class="fas fa-chart-line"></i> <span class="pixel-text">STATISTIQUES</span>
+                    </h3>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card pixel-border">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                                <div class="stat-title">PARTIES</div>
+                            </div>
+                            <div class="stat-value" id="gamesPlayed">0</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="gamesBar"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="stat-title">SCORE TOTAL</div>
+                            </div>
+                            <div class="stat-value" id="totalScoreStat">0</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="scoreBar"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="stat-title">MOYENNE</div>
+                            </div>
+                            <div class="stat-value" id="avgScore">0.0</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="avgBar"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-header">
+                                <div class="stat-icon">
+                                    <i class="fas fa-ranking-star"></i>
+                                </div>
+                                <div class="stat-title">RANG</div>
+                            </div>
+                            <div class="stat-value" id="globalRank">#--</div>
+                            <div class="rank-change">
+                                <i class="fas fa-arrow-up"></i> <span id="rankChange">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Historique des scores -->
+                <section class="scores-section">
+                    <h3 class="section-title pixel-border">
+                        <i class="fas fa-history"></i> <span class="pixel-text">HISTORIQUE DES SCORES</span>
+                    </h3>
+                    
+                    <div class="score-history">
+                        <div class="score-header pixel-border">
+                            <span>DATE</span>
+                            <span>JEU</span>
+                            <span>SCORE</span>
+                            <span>RÉCOMPENSE</span>
+                        </div>
+                        <div class="score-entries" id="gameScores">
+                            <!-- Les scores se chargeront ici -->
+                            <div class="score-entry pixel-border blinking">
+                                <span>--/--/--</span>
+                                <span>----</span>
+                                <span>00000</span>
+                                <span>0 <i class="fas fa-coins"></i></span>
+                            </div>
+                            <div class="no-scores">
+                                <i class="fas fa-gamepad"></i>
+                                <p>Aucun score enregistré</p>
+                                <p>Jouez à des jeux pour apparaître ici !</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Succès -->
+                <section class="achievements-section">
+                    <h3 class="section-title pixel-border">
+                        <i class="fas fa-medal"></i> <span class="pixel-text">SUCCÈS DÉBLOQUÉS</span>
+                    </h3>
+                    
+                    <div class="achievements-grid" id="achievementsGrid">
+                        <div class="achievement-card pixel-border locked">
+                            <div class="achievement-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>PREMIÈRE PARTIE</h4>
+                                <p>Jouez votre première partie</p>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/1</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="achievement-card pixel-border locked">
+                            <div class="achievement-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>SCORE 1000</h4>
+                                <p>Atteignez 1000 points</p>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/1000</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="achievement-card pixel-border locked">
+                            <div class="achievement-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>MAÎTRE DU JEU</h4>
+                                <p>Gagnez 10 parties</p>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/10</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Boutons d'action -->
+                <div class="action-buttons">
+                    <button id="resetDataBtn" class="btn-action btn-danger pixel-border">
+                        <i class="fas fa-bomb"></i> RÉINITIALISER
+                    </button>
+                    <button id="exportDataBtn" class="btn-action btn-secondary pixel-border">
+                        <i class="fas fa-download"></i> EXPORTER
+                    </button>
+                    <button id="importDataBtn" class="btn-action btn-primary pixel-border">
+                        <i class="fas fa-upload"></i> IMPORTER
+                    </button>
+                </div>
+            </main>
+            
+            <!-- Modal -->
+            <div class="modal" id="dataModal">
+                <div class="modal-content pixel-border">
+                    <span class="close-modal">&times;</span>
+                    <h3 class="pixel-text" id="modalTitle">EXPORT DES DONNÉES</h3>
+                    <div id="modalBody">
+                        <div class="data-display">
+                            <div class="data-header">
+                                <i class="fas fa-database"></i>
+                                <span>DONNÉES DE SAUVEGARDE</span>
+                            </div>
+                            <textarea id="dataTextarea" readonly placeholder="LES DONNÉES APPARAÎTRONT ICI..."></textarea>
+                            <div class="data-actions">
+                                <button id="copyDataBtn" class="btn-modal pixel-border">
+                                    <i class="fas fa-copy"></i> COPIER
+                                </button>
+                                <button id="clearDataBtn" class="btn-modal pixel-border">
+                                    <i class="fas fa-eraser"></i> EFFACER
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Marque CRT -->
+            <div class="crt-marking">
+                <span class="marking-text">PROFIL SYSTEM v1.0</span>
+                <span class="marking-icon">💾</span>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Styles CRT similaires à la page d'accueil */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DotGothic16', 'Press Start 2P', monospace;
+            background: #000;
+            color: var(--crt-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Cadre CRT */
+        .crt-frame {
+            background: #222;
+            border: 20px solid #111;
+            border-radius: 10px;
+            box-shadow: 
+                0 0 100px rgba(0, 206, 209, 0.7),
+                0 0 50px rgba(255, 105, 180, 0.5),
+                inset 0 0 50px rgba(0, 0, 0, 0.9);
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .crt-screen {
+            background: #000;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            min-height: 700px;
+            border: 2px solid #444;
+        }
+
+        /* Effets CRT (identique à la page d'accueil) */
+        .tube-lines, .scanlines, .glare, .pixel-grid, .tv-noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .tube-lines {
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 206, 209, 0.03) 50%,
+                transparent 100%
+            );
+        }
+
+        .scanlines {
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            animation: scanline 10s linear infinite;
+        }
+
+        .glare {
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.03) 50%,
+                transparent 100%
+            );
+        }
+
+        .pixel-grid {
+            background-image: 
+                linear-gradient(rgba(0, 206, 209, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 105, 180, 0.1) 1px, transparent 1px);
+            background-size: 8px 8px;
+        }
+
+        .tv-noise {
+            background: 
+                radial-gradient(circle, transparent 0%, #000 100%),
+                repeating-radial-gradient(circle at 50% 50%, 
+                    rgba(255, 255, 255, 0.02) 0px, 
+                    rgba(255, 255, 255, 0.02) 1px, 
+                    transparent 1px, 
+                    transparent 10px);
+            opacity: 0.1;
+            animation: noise 0.2s infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        @keyframes noise {
+            0% { background-position: 0 0; }
+            100% { background-position: 10px 10px; }
+        }
+
+        /* Styles texte et bordures */
+        .pixel-text {
+            font-family: 'Press Start 2P', 'DotGothic16', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pixel-border {
+            border: 2px solid var(--crt-text);
+            position: relative;
+        }
+
+        .pixel-border::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid #000;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .joueur-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-btn {
+            color: var(--crt-text);
+            text-decoration: none;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-btn:hover {
+            background: var(--retro-cyan);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* Personnage anime */
+        .anime-profile {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .character-display {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .character-sprite {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--retro-cyan) 0%, var(--retro-purple) 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .character-sprite::before,
+        .character-sprite::after {
+            content: '';
+            position: absolute;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        .character-sprite::before {
+            top: 30%;
+            left: 25%;
+            width: 15px;
+            height: 15px;
+        }
+
+        .character-sprite::after {
+            top: 30%;
+            right: 25%;
+            width: 15px;
+            height: 15px;
+        }
+
+        .level-indicator {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .level-text {
+            font-size: 0.8rem;
+            color: var(--retro-pink);
+            margin-bottom: 5px;
+        }
+
+        .level-bar {
+            width: 100px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--crt-text);
+        }
+
+        .level-fill {
+            height: 100%;
+            background: var(--neon-green);
+            width: 30%;
+        }
+
+        /* Informations profil */
+        .profile-info h2 {
+            font-size: 1.8rem;
+            color: var(--retro-cyan);
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px var(--retro-cyan);
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-chip {
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-chip i {
+            color: var(--retro-pink);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Paramètres */
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            font-size: 1rem;
+        }
+
+        .setting-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .setting-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--retro-pink);
+        }
+
+        .setting-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 10px;
+            background: #000;
+        }
+
+        .input-field input {
+            background: transparent;
+            border: none;
+            color: var(--crt-text);
+            font-family: 'DotGothic16', monospace;
+            width: 100%;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-chars {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: var(--retro-cyan);
+        }
+
+        .btn-action {
+            padding: 10px 20px;
+            background: #000;
+            color: var(--crt-text);
+            border: 2px solid var(--crt-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DotGothic16', monospace;
+        }
+
+        .btn-action:hover {
+            background: var(--retro-cyan);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .input-hint {
+            font-size: 0.8rem;
+            color: var(--retro-cyan);
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Sélecteur de couleurs */
+        .color-picker {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .color-option {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-sample {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            border: 2px solid transparent;
+        }
+
+        .color-sample.cyan {
+            background: var(--retro-cyan);
+        }
+
+        .color-sample.pink {
+            background: var(--retro-pink);
+        }
+
+        .color-sample.purple {
+            background: var(--retro-purple);
+        }
+
+        .color-sample.green {
+            background: var(--neon-green);
+        }
+
+        .color-option.active .color-sample {
+            border-color: var(--crt-text);
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        /* Statistiques */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            color: var(--retro-pink);
+            font-size: 1.2rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--crt-text);
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-family: 'Press Start 2P', monospace;
+            color: var(--neon-green);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .stat-bar {
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            margin-top: 10px;
+        }
+
+        .stat-fill {
+            height: 100%;
+            background: var(--retro-cyan);
+        }
+
+        .rank-change {
+            font-size: 0.8rem;
+            color: var(--neon-green);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        /* Historique des scores */
+        .score-history {
+            margin-top: 20px;
+        }
+
+        .score-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .score-entry {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            padding: 10px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            margin: 2px 0;
+        }
+
+        .score-entry:nth-child(odd) {
+            background: rgba(255, 105, 180, 0.1);
+        }
+
+        .blinking {
+            animation: blink-entry 1s infinite;
+            background: rgba(57, 255, 20, 0.2) !important;
+        }
+
+        @keyframes blink-entry {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+
+        .no-scores {
+            text-align: center;
+            padding: 40px;
+            color: var(--retro-cyan);
+            opacity: 0.7;
+        }
+
+        .no-scores i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--retro-pink);
+        }
+
+        /* Succès */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .achievement-card {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .achievement-card.locked {
+            opacity: 0.6;
+        }
+
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--retro-cyan);
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-info h4 {
+            color: var(--retro-pink);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .achievement-info p {
+            font-size: 0.8rem;
+            color: var(--crt-text);
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .achievement-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--neon-green);
+        }
+
+        .progress-text {
+            font-size: 0.7rem;
+            color: var(--retro-cyan);
+        }
+
+        /* Boutons d'action */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn-danger {
+            border-color: var(--retro-pink);
+        }
+
+        .btn-danger:hover {
+            background: var(--retro-pink);
+        }
+
+        .btn-secondary {
+            border-color: var(--retro-cyan);
+        }
+
+        .btn-secondary:hover {
+            background: var(--retro-cyan);
+        }
+
+        .btn-primary {
+            border-color: var(--neon-green);
+        }
+
+        .btn-primary:hover {
+            background: var(--neon-green);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #000;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 3px solid var(--neon-green);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            color: var(--retro-pink);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--neon-green);
+        }
+
+        .data-display {
+            margin-top: 20px;
+        }
+
+        .data-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--retro-cyan);
+        }
+
+        #dataTextarea {
+            width: 100%;
+            height: 150px;
+            background: #000;
+            color: var(--neon-green);
+            border: 2px solid var(--crt-text);
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: none;
+            margin-bottom: 15px;
+        }
+
+        .data-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-modal {
+            padding: 10px 20px;
+            background: #000;
+            color: var(--crt-text);
+            border: 2px solid var(--crt-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DotGothic16', monospace;
+        }
+
+        .btn-modal:hover {
+            background: var(--retro-cyan);
+            color: #000;
+        }
+
+        /* Marque CRT */
+        .crt-marking {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--retro-cyan);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.7;
+        }
+
+        .marking-text {
+            font-family: 'Press Start 2P', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .crt-frame {
+                border: 10px solid #111;
+            }
+            
+            .crt-screen {
+                padding: 15px;
+            }
+            
+            .anime-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-title {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-title {
+                font-size: 0.8rem;
+            }
+            
+            .profile-info h2 {
+                font-size: 1.2rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .color-picker {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Animation du personnage */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Effet de dégradation CRT */
+        .crt-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 3;
+        }
+    </style>
+
+    <script>
+        // JavaScript pour la page de profil
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Effet d'allumage CRT
+            const crtScreen = document.querySelector('.crt-screen');
+            crtScreen.style.animation = 'crt-power-on 2s ease-out';
+            
+            // Initialisation du personnage
+            const playerSprite = document.getElementById('playerSprite');
+            
+            // Sélecteur de couleur
+            const colorOptions = document.querySelectorAll('.color-option');
+                        colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Retirer la classe active de toutes les options
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Ajouter la classe active à l'option cliquée
+                    this.classList.add('active');
+                    
+                    // Changer la couleur du personnage
+                    const color = this.getAttribute('data-color');
+                    changeCharacterColor(color);
+                    
+                    // Sauvegarder la préférence
+                    localStorage.setItem('playerColor', color);
+                    
+                    // Son de sélection
+                    playRetroSound('select');
+                });
+            });
+            
+            // Charger la couleur sauvegardée
+            const savedColor = localStorage.getItem('playerColor');
+            if (savedColor) {
+                const savedOption = document.querySelector(`.color-option[data-color="${savedColor}"]`);
+                if (savedOption) {
+                    savedOption.classList.add('active');
+                    changeCharacterColor(savedColor);
+                }
+            } else {
+                // Par défaut cyan
+                colorOptions[0].classList.add('active');
+            }
+            
+            // Fonction pour changer la couleur du personnage
+            function changeCharacterColor(color) {
+                const sprite = document.getElementById('playerSprite');
+                let gradient;
+                
+                switch(color) {
+                    case 'cyan':
+                        gradient = 'linear-gradient(45deg, #00CED1 0%, #20B2AA 100%)';
+                        break;
+                    case 'pink':
+                        gradient = 'linear-gradient(45deg, #FF69B4 0%, #FF1493 100%)';
+                        break;
+                    case 'purple':
+                        gradient = 'linear-gradient(45deg, #8A2BE2 0%, #9370DB 100%)';
+                        break;
+                    case 'green':
+                        gradient = 'linear-gradient(45deg, #39FF14 0%, #32CD32 100%)';
+                        break;
+                    default:
+                        gradient = 'linear-gradient(45deg, #00CED1 0%, #20B2AA 100%)';
+                }
+                
+                sprite.style.background = gradient;
+            }
+            
+            // Gestionnaire d'entrée de nom d'utilisateur
+            const usernameInput = document.getElementById('usernameInput');
+            const charCount = document.getElementById('charCount');
+            const saveUsernameBtn = document.getElementById('saveUsernameBtn');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            
+            // Compteur de caractères
+            if (usernameInput && charCount) {
+                usernameInput.addEventListener('input', function() {
+                    const currentLength = this.value.length;
+                    charCount.textContent = currentLength;
+                    
+                    // Changer la couleur du compteur
+                    if (currentLength > 10) {
+                        charCount.style.color = '#FF69B4';
+                    } else if (currentLength > 0) {
+                        charCount.style.color = '#39FF14';
+                    } else {
+                        charCount.style.color = '#00CED1';
+                    }
+                });
+            }
+            
+            // Sauvegarder le nom d'utilisateur
+            if (saveUsernameBtn) {
+                saveUsernameBtn.addEventListener('click', function() {
+                    const username = usernameInput.value.trim();
+                    
+                    if (username.length === 0) {
+                        // Animation d'erreur
+                        usernameInput.style.border = '2px solid #FF69B4';
+                        setTimeout(() => {
+                            usernameInput.style.border = '';
+                        }, 500);
+                        playRetroSound('error');
+                        return;
+                    }
+                    
+                    // Sauvegarder dans localStorage
+                    localStorage.setItem('arcadeUsername', username);
+                    
+                    // Mettre à jour l'affichage
+                    usernameDisplay.textContent = username.toUpperCase();
+                    
+                    // Animation de succès
+                    this.style.background = '#39FF14';
+                    this.style.color = '#000';
+                    this.innerHTML = '<i class="fas fa-check"></i> SAUVÉ !';
+                    
+                    // Son de succès
+                    playRetroSound('success');
+                    
+                    // Réinitialiser après 1.5 secondes
+                    setTimeout(() => {
+                        this.style.background = '';
+                        this.style.color = '';
+                        this.innerHTML = '<i class="fas fa-floppy-disk"></i> SAUVEGARDER';
+                    }, 1500);
+                    
+                    // Mettre à jour les scores existants
+                    updateExistingScores(username);
+                });
+            }
+            
+            // Charger le nom d'utilisateur sauvegardé
+            function loadUsername() {
+                const savedUsername = localStorage.getItem('arcadeUsername');
+                if (savedUsername) {
+                    usernameInput.value = savedUsername;
+                    usernameDisplay.textContent = savedUsername.toUpperCase();
+                    charCount.textContent = savedUsername.length;
+                }
+            }
+            
+            // Mettre à jour les scores existants avec le nouveau nom
+            function updateExistingScores(newUsername) {
+                try {
+                    const scoresJson = localStorage.getItem('arcadeHighScores');
+                    if (scoresJson) {
+                        const scores = JSON.parse(scoresJson);
+                        const updatedScores = scores.map(score => {
+                            if (score.username === 'ANONYME' || score.username === 'JOUEUR') {
+                                return {...score, username: newUsername};
+                            }
+                            return score;
+                        });
+                        localStorage.setItem('arcadeHighScores', JSON.stringify(updatedScores));
+                    }
+                } catch (error) {
+                    console.error('Erreur de mise à jour des scores:', error);
+                }
+            }
+            
+            // Charger les statistiques
+            function loadStats() {
+                try {
+                    const scoresJson = localStorage.getItem('arcadeHighScores');
+                    let totalGames = 0;
+                    let totalScore = 0;
+                    let avgScore = 0;
+                    
+                    if (scoresJson) {
+                        const scores = JSON.parse(scoresJson);
+                        totalGames = scores.length;
+                        
+                        if (totalGames > 0) {
+                            // Calculer le score total
+                            totalScore = scores.reduce((sum, score) => sum + (score.score || 0), 0);
+                            avgScore = Math.round(totalScore / totalGames);
+                            
+                            // Mettre à jour les barres de progression
+                            const gamesPlayed = document.getElementById('gamesPlayed');
+                            const totalScoreStat = document.getElementById('totalScoreStat');
+                            const avgScoreDisplay = document.getElementById('avgScore');
+                            
+                            if (gamesPlayed) gamesPlayed.textContent = totalGames;
+                            if (totalScoreStat) totalScoreStat.textContent = totalScore;
+                            if (avgScoreDisplay) avgScoreDisplay.textContent = avgScore;
+                            
+                            // Animer les barres
+                            animateProgress('gamesBar', totalGames / 50); // 50 jeux max pour la barre
+                            animateProgress('scoreBar', Math.min(totalScore / 10000, 1)); // 10k score max
+                            animateProgress('avgBar', Math.min(avgScore / 1000, 1)); // 1k moyenne max
+                            
+                            // Calculer le rang
+                            calculateGlobalRank(totalScore);
+                            
+                            // Mettre à jour le niveau
+                            updatePlayerLevel(totalScore);
+                            
+                            // Mettre à jour les succès
+                            updateAchievements(totalGames, totalScore);
+                        }
+                    }
+                    
+                    // Mettre à jour les compteurs
+                    document.getElementById('tokenCount').textContent = Math.floor(totalScore / 100);
+                    document.getElementById('totalScore').textContent = totalScore;
+                    
+                } catch (error) {
+                    console.error('Erreur de chargement des statistiques:', error);
+                }
+            }
+            
+            // Animer les barres de progression
+            function animateProgress(elementId, percentage) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    setTimeout(() => {
+                        element.style.width = `${percentage * 100}%`;
+                    }, 300);
+                }
+            }
+            
+            // Calculer le rang global
+            function calculateGlobalRank(totalScore) {
+                try {
+                    const scoresJson = localStorage.getItem('arcadeHighScores');
+                    if (scoresJson) {
+                        const scores = JSON.parse(scoresJson);
+                        
+                        // Group scores by user
+                        const userTotals = {};
+                        scores.forEach(score => {
+                            if (!userTotals[score.username]) {
+                                userTotals[score.username] = 0;
+                            }
+                            userTotals[score.username] += score.score;
+                        });
+                        
+                        // Create sorted array
+                        const sortedUsers = Object.entries(userTotals)
+                            .sort((a, b) => b[1] - a[1]);
+                        
+                        // Find current user rank
+                        const currentUser = localStorage.getItem('arcadeUsername') || 'JOUEUR';
+                        const rank = sortedUsers.findIndex(([username]) => username === currentUser) + 1;
+                        
+                        const rankDisplay = document.getElementById('globalRank');
+                        if (rankDisplay) {
+                            rankDisplay.textContent = `#${rank || '--'}`;
+                        }
+                        
+                        // Calculate rank change
+                        const lastRank = parseInt(localStorage.getItem('lastRank') || rank);
+                        const rankChange = document.getElementById('rankChange');
+                        if (rankChange) {
+                            const change = lastRank - rank;
+                            if (change > 0) {
+                                rankChange.innerHTML = `<i class="fas fa-arrow-up"></i> ${change}`;
+                                rankChange.style.color = '#39FF14';
+                            } else if (change < 0) {
+                                rankChange.innerHTML = `<i class="fas fa-arrow-down"></i> ${Math.abs(change)}`;
+                                rankChange.style.color = '#FF69B4';
+                            } else {
+                                rankChange.innerHTML = `<i class="fas fa-minus"></i> 0`;
+                                rankChange.style.color = '#00CED1';
+                            }
+                        }
+                        
+                        // Save current rank
+                        localStorage.setItem('lastRank', rank);
+                    }
+                } catch (error) {
+                    console.error('Erreur de calcul du rang:', error);
+                }
+            }
+            
+            // Mettre à jour le niveau du joueur
+            function updatePlayerLevel(totalScore) {
+                const level = Math.floor(totalScore / 1000) + 1;
+                const levelDisplay = document.getElementById('playerLevel');
+                const levelProgress = document.getElementById('levelProgress');
+                
+                if (levelDisplay) {
+                    levelDisplay.textContent = level;
+                }
+                
+                if (levelProgress) {
+                    const progress = (totalScore % 1000) / 1000;
+                    levelProgress.style.width = `${progress * 100}%`;
+                }
+            }
+            
+            // Mettre à jour les succès
+            function updateAchievements(gamesPlayed, totalScore) {
+                const achievements = document.querySelectorAll('.achievement-card');
+                
+                achievements.forEach((achievement, index) => {
+                    let isUnlocked = false;
+                    let progress = 0;
+                    
+                    switch(index) {
+                        case 0: // Première partie
+                            isUnlocked = gamesPlayed >= 1;
+                            progress = Math.min(gamesPlayed, 1);
+                            break;
+                        case 1: // Score 1000
+                            isUnlocked = totalScore >= 1000;
+                            progress = Math.min(totalScore / 1000, 1);
+                            break;
+                        case 2: // Maître du jeu
+                            isUnlocked = gamesPlayed >= 10;
+                            progress = Math.min(gamesPlayed / 10, 1);
+                            break;
+                    }
+                    
+                    if (isUnlocked) {
+                        achievement.classList.remove('locked');
+                        const icon = achievement.querySelector('.achievement-icon i');
+                        icon.style.color = '#39FF14';
+                    }
+                    
+                    // Mettre à jour la barre de progression
+                    const progressFill = achievement.querySelector('.progress-fill');
+                    const progressText = achievement.querySelector('.progress-text');
+                    
+                    if (progressFill) {
+                        progressFill.style.width = `${progress * 100}%`;
+                    }
+                    
+                    if (progressText) {
+                        switch(index) {
+                            case 0:
+                                progressText.textContent = `${Math.min(gamesPlayed, 1)}/1`;
+                                break;
+                            case 1:
+                                progressText.textContent = `${Math.min(totalScore, 1000)}/1000`;
+                                break;
+                            case 2:
+                                progressText.textContent = `${Math.min(gamesPlayed, 10)}/10`;
+                                break;
+                        }
+                    }
+                });
+            }
+            
+            // Charger les scores
+            function loadScores() {
+                const scoresContainer = document.getElementById('gameScores');
+                
+                try {
+                    const scoresJson = localStorage.getItem('arcadeHighScores');
+                    
+                    if (scoresJson) {
+                        const scores = JSON.parse(scoresJson);
+                        
+                        if (scores.length === 0) {
+                            return;
+                        }
+                        
+                        // Filtrer les scores de l'utilisateur actuel
+                        const currentUser = localStorage.getItem('arcadeUsername') || 'JOUEUR';
+                        const userScores = scores.filter(score => score.username === currentUser);
+                        
+                        // Trier par date (les plus récents d'abord)
+                        userScores.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                        
+                        // Limiter à 10 entrées maximum
+                        const recentScores = userScores.slice(0, 10);
+                        
+                        if (recentScores.length === 0) {
+                            return;
+                        }
+                        
+                        // Mettre à jour l'affichage
+                        scoresContainer.innerHTML = '';
+                        
+                        recentScores.forEach((score, index) => {
+                            const entry = document.createElement('div');
+                            entry.className = `score-entry pixel-border ${index === 0 ? 'blinking' : ''}`;
+                            
+                            // Formater la date
+                            const date = score.date ? new Date(score.date) : new Date();
+                            const dateStr = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                            
+                            // Calculer la récompense (10 jetons par 1000 points)
+                            const reward = Math.floor(score.score / 100) * 10;
+                            
+                            entry.innerHTML = `
+                                <span>${dateStr}</span>
+                                <span>${score.game || 'INCONNU'}</span>
+                                <span>${score.score.toString().padStart(5, '0')}</span>
+                                <span>${reward} <i class="fas fa-coins"></i></span>
+                            `;
+                            scoresContainer.appendChild(entry);
+                        });
+                        
+                        // Retirer le message "Aucun score"
+                        const noScores = scoresContainer.querySelector('.no-scores');
+                        if (noScores) {
+                            noScores.remove();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erreur de chargement des scores:', error);
+                }
+            }
+            
+            // Boutons d'action
+            const resetBtn = document.getElementById('resetDataBtn');
+            const exportBtn = document.getElementById('exportDataBtn');
+            const importBtn = document.getElementById('importDataBtn');
+            const copyBtn = document.getElementById('copyDataBtn');
+            const clearBtn = document.getElementById('clearDataBtn');
+            
+            // Réinitialiser les données
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    if (confirm('ÊTES-VOUS SÛR DE VOULOIR TOUT RÉINITIALISER ?\n\nToutes vos données seront effacées.')) {
+                        // Effacer le localStorage
+                        localStorage.removeItem('arcadeHighScores');
+                        localStorage.removeItem('arcadeUsername');
+                        localStorage.removeItem('playerColor');
+                        localStorage.removeItem('lastRank');
+                        
+                        // Réinitialiser l'affichage
+                        loadUsername();
+                        loadStats();
+                        loadScores();
+                        
+                        // Animation de réinitialisation
+                        this.innerHTML = '<i class="fas fa-check"></i> RÉINITIALISÉ !';
+                        this.style.background = '#39FF14';
+                        this.style.color = '#000';
+                        
+                        playRetroSound('reset');
+                        
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-bomb"></i> RÉINITIALISER';
+                            this.style.background = '';
+                            this.style.color = '';
+                        }, 2000);
+                    } else {
+                        playRetroSound('error');
+                    }
+                });
+            }
+            
+            // Exporter les données
+            if (exportBtn) {
+                exportBtn.addEventListener('click', function() {
+                    try {
+                        const modal = document.getElementById('dataModal');
+                        const modalTitle = document.getElementById('modalTitle');
+                        const dataTextarea = document.getElementById('dataTextarea');
+                        
+                        // Préparer les données à exporter
+                        const exportData = {
+                            username: localStorage.getItem('arcadeUsername') || 'JOUEUR',
+                            scores: JSON.parse(localStorage.getItem('arcadeHighScores') || '[]'),
+                            color: localStorage.getItem('playerColor') || 'cyan',
+                            lastRank: localStorage.getItem('lastRank') || '1',
+                            exportDate: new Date().toISOString()
+                        };
+                        
+                        // Afficher dans le modal
+                        modalTitle.textContent = 'EXPORT DES DONNÉES';
+                        dataTextarea.value = JSON.stringify(exportData, null, 2);
+                        modal.style.display = 'flex';
+                        
+                        playRetroSound('select');
+                        
+                    } catch (error) {
+                        console.error('Erreur d\'export:', error);
+                        playRetroSound('error');
+                    }
+                });
+            }
+            
+            // Importer les données
+            if (importBtn) {
+                importBtn.addEventListener('click', function() {
+                    const modal = document.getElementById('dataModal');
+                    const modalTitle = document.getElementById('modalTitle');
+                    const dataTextarea = document.getElementById('dataTextarea');
+                    
+                    modalTitle.textContent = 'IMPORTER DES DONNÉES';
+                    dataTextarea.value = '';
+                    dataTextarea.readOnly = false;
+                    dataTextarea.placeholder = 'COLLEZ VOS DONNÉES DE SAUVEGARDE ICI...';
+                    modal.style.display = 'flex';
+                    
+                    playRetroSound('select');
+                });
+            }
+            
+            // Copier les données
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const dataTextarea = document.getElementById('dataTextarea');
+                    
+                    if (dataTextarea.value.trim() === '') {
+                        playRetroSound('error');
+                        return;
+                    }
+                    
+                    dataTextarea.select();
+                    document.execCommand('copy');
+                    
+                    // Animation de confirmation
+                    this.innerHTML = '<i class="fas fa-check"></i> COPIÉ !';
+                    this.style.background = '#39FF14';
+                    this.style.color = '#000';
+                    
+                    playRetroSound('success');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy"></i> COPIER';
+                        this.style.background = '';
+                        this.style.color = '';
+                    }, 2000);
+                });
+            }
+            
+            // Effacer le texte
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function() {
+                    const dataTextarea = document.getElementById('dataTextarea');
+                    dataTextarea.value = '';
+                    playRetroSound('select');
+                });
+            }
+            
+            // Gérer l'import de données
+            const dataTextarea = document.getElementById('dataTextarea');
+            if (dataTextarea) {
+                dataTextarea.addEventListener('input', function() {
+                    const modalTitle = document.getElementById('modalTitle');
+                    
+                    if (modalTitle.textContent === 'IMPORTER DES DONNÉES') {
+                        try {
+                            const importData = JSON.parse(this.value);
+                            
+                            // Valider les données
+                            if (importData.username && importData.scores) {
+                                // Sauvegarder les données
+                                localStorage.setItem('arcadeUsername', importData.username);
+                                localStorage.setItem('arcadeHighScores', JSON.stringify(importData.scores));
+                                
+                                if (importData.color) {
+                                    localStorage.setItem('playerColor', importData.color);
+                                }
+                                
+                                if (importData.lastRank) {
+                                    localStorage.setItem('lastRank', importData.lastRank);
+                                }
+                                
+                                // Recharger l'affichage
+                                loadUsername();
+                                loadStats();
+                                loadScores();
+                                
+                                // Fermer le modal après un délai
+                                setTimeout(() => {
+                                    document.getElementById('dataModal').style.display = 'none';
+                                    playRetroSound('success');
+                                    
+                                    // Message de confirmation
+                                    alert('DONNÉES IMPORTÉES AVEC SUCCÈS !');
+                                }, 500);
+                            }
+                        } catch (error) {
+                            // Données invalides - on ne fait rien
+                        }
+                    }
+                });
+            }
+            
+            // Fermer le modal
+            const closeModal = document.querySelector('.close-modal');
+            if (closeModal) {
+                closeModal.addEventListener('click', function() {
+                    document.getElementById('dataModal').style.display = 'none';
+                    playRetroSound('click');
+                });
+            }
+            
+            // Fermer le modal en cliquant dehors
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('dataModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    playRetroSound('click');
+                }
+            });
+            
+            // Simulation de sons rétro
+            function playRetroSound(type) {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    switch(type) {
+                        case 'select':
+                            playBeep(audioContext, 800, 100, 0.2);
+                            break;
+                        case 'click':
+                            playBeep(audioContext, 600, 50, 0.1);
+                            break;
+                        case 'success':
+                            playSuccessSound(audioContext);
+                            break;
+                        case 'error':
+                            playErrorSound(audioContext);
+                            break;
+                        case 'reset':
+                            playResetSound(audioContext);
+                            break;
+                    }
+                } catch (e) {
+                    console.log('Audio context non supporté');
+                }
+            }
+            
+            function playBeep(audioContext, frequency, duration, volume) {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration / 1000);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+            }
+            
+            function playSuccessSound(audioContext) {
+                const frequencies = [800, 1200, 1600];
+                const duration = 100;
+                
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(audioContext, freq, duration, 0.2);
+                    }, index * duration);
+                });
+            }
+            
+            function playErrorSound(audioContext) {
+                const frequencies = [400, 300, 200];
+                const duration = 150;
+                
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(audioContext, freq, duration, 0.3);
+                    }, index * duration);
+                });
+            }
+            
+            function playResetSound(audioContext) {
+                const frequencies = [200, 100, 50];
+                const duration = 200;
+                
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(audioContext, freq, duration, 0.4);
+                    }, index * duration);
+                });
+            }
+            
+            // Effet de bruit CRT aléatoire
+            function randomCRTNoise() {
+                const noise = document.querySelector('.tv-noise');
+                if (noise) {
+                    setInterval(() => {
+                        const randomX = Math.random() * 10;
+                        const randomY = Math.random() * 10;
+                        noise.style.backgroundPosition = `${randomX}px ${randomY}px`;
+                    }, 50);
+                }
+            }
+            
+            // Effet de scintillement aléatoire
+            setInterval(() => {
+                const pixelTexts = document.querySelectorAll('.pixel-text');
+                const randomText = pixelTexts[Math.floor(Math.random() * pixelTexts.length)];
+                if (randomText) {
+                    randomText.style.opacity = '0.7';
+                    setTimeout(() => {
+                        randomText.style.opacity = '1';
+                    }, 100);
+                }
+            }, 300);
+            
+            // Initialisation
+            loadUsername();
+            loadStats();
+            loadScores();
+            randomCRTNoise();
+            
+            // Effet de vibration sur hover des boutons
+            const buttons = document.querySelectorAll('.btn-action, .nav-btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-2px) scale(1.05)';
+                    playRetroSound('click');
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = '';
+                });
+            });
+            
+            // Message d'accueil aléatoire
+            const welcomeMessages = [
+                "PROFIL ACTIF",
+                "STATS MISES À JOUR",
+                "SYSTEM READY",
+                "DATA LOADED",
+                "PLAYER STATUS: ONLINE"
+            ];
+            
+            const navTitle = document.querySelector('.nav-title');
+            if (navTitle) {
+                setInterval(() => {
+                    const randomMsg = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+                    navTitle.innerHTML = `<i class="fas fa-user-secret"></i> ${randomMsg}`;
+                    setTimeout(() => {
+                        navTitle.innerHTML = `<i class="fas fa-user-secret"></i> PROFIL JOUEUR`;
+                    }, 3000);
+                }, 15000);
+            }
+        });
+    </script>
+</body>
+</html>

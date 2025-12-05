@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Succès - Arcade Retro</title>
+    <link rel="stylesheet" href="achievements.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --retro-cyan: #00CED1;
+            --retro-pink: #FF69B4;
+            --retro-purple: #8A2BE2;
+            --neon-green: #39FF14;
+            --crt-black: #0A0A0A;
+            --crt-dark: #1A1A2E;
+            --crt-gray: #2D2D44;
+            --crt-text: #E0E0FF;
+            --crt-glow: rgba(0, 206, 209, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- Cadre CRT -->
+    <div class="crt-frame">
+        <div class="crt-screen">
+            <!-- Effets CRT -->
+            <div class="tube-lines"></div>
+            <div class="scanlines"></div>
+            <div class="glare"></div>
+            <div class="pixel-grid"></div>
+            <div class="tv-noise"></div>
+            
+            <!-- Navigation -->
+            <nav class="achievements-nav pixel-border">
+                <a href="index.html" class="nav-btn pixel-border">
+                    <i class="fas fa-home"></i> RETOUR
+                </a>
+                <h1 class="nav-title pixel-text">
+                    <i class="fas fa-trophy"></i> GALLERIE DES SUCCÈS
+                </h1>
+                <a href="arcade.html" class="nav-btn pixel-border">
+                    <i class="fas fa-gamepad"></i> JOUER
+                </a>
+            </nav>
+            
+            <!-- En-tête -->
+            <header class="achievements-header">
+                <div class="header-content pixel-border">
+                    <div class="character-display">
+                        <div class="trophy-sprite">
+                            <div class="trophy-base"></div>
+                            <div class="trophy-cup"></div>
+                            <div class="trophy-sparkle"></div>
+                        </div>
+                        <div class="header-title">
+                            <h2 class="pixel-text">SUCCÈS DÉBLOQUÉS</h2>
+                            <p class="header-subtitle">Défiez-vous et débloquez des récompenses !</p>
+                        </div>
+                    </div>
+                    
+                    <div class="global-stats">
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalAchievements">0</div>
+                                <div class="stat-label">SUCCÈS</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="completionRate">0%</div>
+                                <div class="stat-label">COMPLÉTION</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="totalTokens">0</div>
+                                <div class="stat-label">JETONS GAGNÉS</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card pixel-border">
+                            <div class="stat-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="playerRank">#--</div>
+                                <div class="stat-label">RANG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Sélecteur de jeux -->
+            <div class="game-selector pixel-border">
+                <div class="selector-header">
+                    <i class="fas fa-filter"></i>
+                    <span class="selector-title pixel-text">FILTRER PAR JEU</span>
+                </div>
+                <div class="game-tabs">
+                    <button class="game-tab pixel-border active" data-game="all">
+                        <i class="fas fa-gamepad"></i> TOUS
+                    </button>
+                    <button class="game-tab pixel-border" data-game="pacman">
+                        <i class="fas fa-ghost"></i> PAC-ROMÂN
+                    </button>
+                    <button class="game-tab pixel-border" data-game="snake">
+                        <i class="fas fa-snake"></i> ȘARPE
+                    </button>
+                    <button class="game-tab pixel-border" data-game="tetris">
+                        <i class="fas fa-th-large"></i> TETRIS
+                    </button>
+                    <button class="game-tab pixel-border" data-game="spaceinvaders">
+                        <i class="fas fa-rocket"></i> SPACE INV
+                    </button>
+                    <button class="game-tab pixel-border" data-game="breakout">
+                        <i class="fas fa-baseball-ball"></i> BREAKOUT
+                    </button>
+                    <button class="game-tab pixel-border" data-game="global">
+                        <i class="fas fa-globe"></i> GLOBAUX
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Grille des succès -->
+            <main class="achievements-main">
+                <!-- Succès - Tous les jeux -->
+                <div class="achievements-category active" id="all-achievements">
+                    <div class="category-header pixel-border">
+                        <h3 class="category-title pixel-text">
+                            <i class="fas fa-gamepad"></i> SUCCÈS MULTIJEUX
+                        </h3>
+                        <div class="category-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="allProgress"></div>
+                            </div>
+                            <span class="progress-text" id="allProgressText">0/50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievements-grid">
+                        <!-- Premier jeu -->
+                        <div class="achievement-card pixel-border unlocked">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">BASIC</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">PREMIÈRE PARTIE</h4>
+                                <p class="achievement-desc">Jouez votre première partie dans n'importe quel jeu</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-globe"></i> MULTIJEUX
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+50 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status">
+                                <div class="status-icon unlocked-icon">
+                                    <i class="fas fa-unlock"></i>
+                                </div>
+                                <span class="status-text">DÉBLOQUÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Score 1000 -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">EASY</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">SCORE 1000</h4>
+                                <p class="achievement-desc">Atteignez 1000 points cumulés dans tous les jeux</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-globe"></i> MULTIJEUX
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+100 JETONS</span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: 40%"></div>
+                                    </div>
+                                    <span class="progress-text">400/1000</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Maître du jeu -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">MEDIUM</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">MAÎTRE DU JEU</h4>
+                                <p class="achievement-desc">Gagnez 10 parties dans différents jeux</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-globe"></i> MULTIJEUX
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+200 JETONS</span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: 20%"></div>
+                                    </div>
+                                    <span class="progress-text">2/10</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Collectionneur -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">HARD</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">COLLECTIONNEUR</h4>
+                                <p class="achievement-desc">Débloquez 20 succès différents</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-globe"></i> MULTIJEUX
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+500 JETONS</span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: 10%"></div>
+                                    </div>
+                                    <span class="progress-text">2/20</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Légende de l'Arcade -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">LEGEND</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">LÉGENDE DE L'ARCADE</h4>
+                                <p class="achievement-desc">Complétez tous les succès d'au moins 3 jeux</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-globe"></i> MULTIJEUX
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+1000 JETONS</span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/3</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Succès - Pac-Man -->
+                <div class="achievements-category" id="pacman-achievements">
+                    <div class="category-header pixel-border">
+                        <h3 class="category-title pixel-text">
+                            <i class="fas fa-ghost"></i> PAC-ROMÂN SUCCÈS
+                        </h3>
+                        <div class="category-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 20%"></div>
+                            </div>
+                            <span class="progress-text">1/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievements-grid">
+                        <!-- Premier mord -->
+                        <div class="achievement-card pixel-border unlocked">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">BASIC</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">PREMIER MORD</h4>
+                                <p class="achievement-desc">Jouez votre première partie de Pac-Man</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-ghost"></i> PAC-ROMÂN
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+50 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status">
+                                <div class="status-icon unlocked-icon">
+                                    <i class="fas fa-unlock"></i>
+                                </div>
+                                <span class="status-text">DÉBLOQUÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Chasseur de fantômes -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">EASY</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-ghost"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">CHASSEUR DE FANTÔMES</h4>
+                                <p class="achievement-desc">Mangez 50 fantômes au total</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-ghost"></i> PAC-ROMÂN
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+100 JETONS</span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="progress-text">30/50</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Démon de la vitesse -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">MEDIUM</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">DÉMON DE LA VITESSE</h4>
+                                <p class="achievement-desc">Terminez le niveau 5 en moins de 2 minutes</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-ghost"></i> PAC-ROMÂN
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+150 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Fièvre Pac-Man -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">HARD</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-infinity"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">FIÈVRE PAC-MAN</h4>
+                                <p class="achievement-desc">Jouez 25 parties de Pac-Man</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-ghost"></i> PAC-ROMÂN
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+200 JETONS</span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: 40%"></div>
+                                    </div>
+                                    <span class="progress-text">10/25</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Maître Pac-Man -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">LEGEND</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">MAÎTRE PAC-MAN</h4>
+                                <p class="achievement-desc">Marquez 10 000 points en une seule partie</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-ghost"></i> PAC-ROMÂN
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+500 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Succès - Snake -->
+                <div class="achievements-category" id="snake-achievements">
+                    <div class="category-header pixel-border">
+                        <h3 class="category-title pixel-text">
+                            <i class="fas fa-snake"></i> ȘARPE SUCCÈS
+                        </h3>
+                        <div class="category-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%"></div>
+                            </div>
+                            <span class="progress-text">2/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="achievements-grid">
+                        <!-- Premier glissement -->
+                        <div class="achievement-card pixel-border unlocked">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">BASIC</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">PREMIER GLISSEMENT</h4>
+                                <p class="achievement-desc">Jouez votre première partie de Serpent</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-snake"></i> ȘARPE
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+50 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status">
+                                <div class="status-icon unlocked-icon">
+                                    <i class="fas fa-unlock"></i>
+                                </div>
+                                <span class="status-text">DÉBLOQUÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Serpent affamé -->
+                        <div class="achievement-card pixel-border unlocked">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">EASY</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-apple-alt"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">SERPENT AFFAMÉ</h4>
+                                <p class="achievement-desc">Mangez 50 pommes au total</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-snake"></i> ȘARPE
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+100 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status">
+                                <div class="status-icon unlocked-icon">
+                                    <i class="fas fa-unlock"></i>
+                                </div>
+                                <span class="status-text">DÉBLOQUÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Long serpent -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">MEDIUM</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-ruler"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">LONG SERPENT</h4>
+                                <p class="achievement-desc">Faites grandir votre serpent à 20 segments</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-snake"></i> ȘARPE
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+150 JETONS</span>
+                                </div>
+                                <div class="achievement-progress">
+                                    <div class="progress-bar small">
+                                        <div class="progress-fill" style="width: 65%"></div>
+                                    </div>
+                                    <span class="progress-text">13/20</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Survivant -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">HARD</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">SURVIVANT</h4>
+                                <p class="achievement-desc">Survivez 5 minutes sans mourir</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-snake"></i> ȘARPE
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+200 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Charmeur de serpents -->
+                        <div class="achievement-card pixel-border">
+                            <div class="achievement-header">
+                                <div class="achievement-badge">
+                                    <span class="badge-text">LEGEND</span>
+                                </div>
+                                <div class="achievement-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                            <div class="achievement-content">
+                                <h4 class="achievement-title pixel-text">CHARMEUR DE SERPENTS</h4>
+                                <p class="achievement-desc">Marquez 500 points en une seule partie</p>
+                                <div class="achievement-game">
+                                    <i class="fas fa-snake"></i> ȘARPE
+                                </div>
+                                <div class="achievement-reward">
+                                    <i class="fas fa-coins"></i>
+                                    <span>+500 JETONS</span>
+                                </div>
+                            </div>
+                            <div class="achievement-status locked">
+                                <div class="status-icon locked-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span class="status-text">VERROUILLÉ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            
+            <!-- Pied de page -->
+            <footer class="achievements-footer">
+                <div class="footer-content pixel-border">
+                    <div class="footer-info">
+                        <div class="footer-tip">
+                            <i class="fas fa-lightbulb blinking"></i>
+                            <span>ASTUCE : Jouez régulièrement pour débloquer plus de succès !</span>
+                        </div>
+                        <div class="footer-stats">
+                            <span class="stat">
+                                <i class="fas fa-gamepad"></i> <span id="totalGamesPlayed">0</span> Parties
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-clock"></i> <span id="totalPlayTime">0</span> Min
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-fire"></i> Série: <span id="currentStreak">0</span> Jours
+                            </span>
+                        </div>
+                    </div>
+                    <div class="copyright">
+                        ARCADE RETRO • GALERIE DES SUCCÈS • v1.0
+                    </div>
+                </div>
+            </footer>
+            
+            <!-- Bouton de notification -->
+            <button class="notification-btn pixel-border" id="newAchievementBtn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count" id="notificationCount">0</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal de nouveau succès -->
+    <div class="modal" id="achievementModal">
+        <div class="modal-content pixel-border">
+            <div class="modal-header">
+                <h3 class="modal-title pixel-text">
+                    <i class="fas fa-trophy"></i> NOUVEAU SUCCÈS DÉBLOQUÉ !
+                </h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            
+            <div class="modal-body" id="modalAchievement">
+                <!-- Contenu dynamique du succès -->
+            </div>
+            
+            <div class="modal-footer">
+                <button class="modal-btn pixel-border" id="claimRewardBtn">
+                    <i class="fas fa-coins"></i> RÉCLAMER LA RÉCOMPENSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Styles CRT de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DotGothic16', 'Press Start 2P', monospace;
+            background: #000;
+            color: var(--crt-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .crt-frame {
+            background: #222;
+            border: 20px solid #111;
+            border-radius: 10px;
+            box-shadow: 
+                0 0 100px rgba(0, 206, 209, 0.7),
+                0 0 50px rgba(255, 105, 180, 0.5),
+                inset 0 0 50px rgba(0, 0, 0, 0.9);
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .crt-screen {
+            background: #000;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            min-height: 800px;
+            border: 2px solid #444;
+        }
+
+        /* Effets CRT */
+        .tube-lines, .scanlines, .glare, .pixel-grid, .tv-noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .tube-lines {
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 206, 209, 0.03) 50%,
+                transparent 100%
+            );
+        }
+
+        .scanlines {
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            animation: scanline 10s linear infinite;
+        }
+
+        .glare {
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.03) 50%,
+                transparent 100%
+            );
+        }
+
+        .pixel-grid {
+            background-image: 
+                linear-gradient(rgba(0, 206, 209, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 105, 180, 0.1) 1px, transparent 1px);
+            background-size: 8px 8px;
+        }
+
+        .tv-noise {
+            background: 
+                radial-gradient(circle, transparent 0%, #000 100%),
+                repeating-radial-gradient(circle at 50% 50%, 
+                    rgba(255, 255, 255, 0.02) 0px, 
+                    rgba(255, 255, 255, 0.02) 1px, 
+                    transparent 1px, 
+                    transparent 10px);
+            opacity: 0.1;
+            animation: noise 0.2s infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        @keyframes noise {
+            0% { background-position: 0 0; }
+            100% { background-position: 10px 10px; }
+        }
+
+        /* Styles communs */
+        .pixel-text {
+            font-family: 'Press Start 2P', 'DotGothic16', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pixel-border {
+            border: 2px solid var(--crt-text);
+            position: relative;
+        }
+
+        .pixel-border::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid #000;
+            pointer-events: none;
+        }
+
+        .blinking {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Navigation */
+        .achievements-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-btn {
+            color: var(--crt-text);
+            text-decoration: none;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-btn:hover {
+            background: var(--retro-cyan);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+                /* En-tête */
+        .achievements-header {
+            margin-bottom: 30px;
+        }
+    }
+
+        .header-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .character-display {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .trophy-sprite {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            animation: trophy-float 3s ease-in-out infinite;
+        }
+
+        .trophy-base {
+            position: absolute;
+            bottom: 0;
+            left: 30%;
+            width: 40%;
+            height: 20px;
+            background: var(--retro-pink);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .trophy-cup {
+            position: absolute;
+            top: 0;
+            left: 25%;
+            width: 50%;
+            height: 70px;
+            background: linear-gradient(135deg, #FFD700, #FFED4E);
+            border-radius: 50% 50% 40% 40%;
+            clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+        }
+
+        .trophy-sparkle {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes trophy-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .header-title h2 {
+            font-size: 1.8rem;
+            color: var(--neon-green);
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .header-subtitle {
+            color: var(--crt-text);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .global-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            background: rgba(0, 206, 209, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--retro-pink);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-family: 'Press Start 2P', monospace;
+            color: var(--neon-green);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--crt-text);
+            opacity: 0.8;
+        }
+
+        /* Sélecteur de jeux */
+        .game-selector {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .selector-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--retro-pink);
+            font-size: 1.1rem;
+        }
+
+        .selector-title {
+            color: var(--neon-green);
+        }
+
+        .game-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .game-tab {
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--crt-text);
+            border: 2px solid var(--crt-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DotGothic16', monospace;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .game-tab.active {
+            background: var(--retro-cyan);
+            color: #000;
+        }
+
+        .game-tab:hover:not(.active) {
+            background: var(--retro-pink);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* Catégories de succès */
+        .achievements-category {
+            display: none;
+        }
+
+        .achievements-category.active {
+            display: block;
+        }
+
+        .category-header {
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .category-title {
+            color: var(--neon-green);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-progress {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 200px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--crt-text);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--retro-cyan), var(--neon-green));
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            color: var(--retro-cyan);
+            min-width: 60px;
+        }
+
+        /* Grille des succès */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .achievement-card {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .achievement-card.unlocked {
+            border-color: var(--neon-green);
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 206, 209, 0.3);
+        }
+
+        .achievement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .achievement-badge {
+            padding: 3px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #000;
+            border-radius: 3px;
+        }
+
+        .achievement-badge .badge-text {
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        /* Couleurs des badges selon la difficulté */
+        .achievement-card[class*="BASIC"] .achievement-badge {
+            background: #32cd32;
+        }
+
+        .achievement-card[class*="EASY"] .achievement-badge {
+            background: #00c8ff;
+        }
+
+        .achievement-card[class*="MEDIUM"] .achievement-badge {
+            background: #ffd700;
+        }
+
+        .achievement-card[class*="HARD"] .achievement-badge {
+            background: #ff4757;
+        }
+
+        .achievement-card[class*="LEGEND"] .achievement-badge {
+            background: #9b59b6;
+        }
+
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--retro-cyan), var(--retro-purple));
+        }
+
+        .achievement-card.unlocked .achievement-icon {
+            background: linear-gradient(135deg, #FFD700, #FFED4E);
+        }
+
+        .achievement-content {
+            margin-bottom: 15px;
+        }
+
+        .achievement-title {
+            font-size: 1.1rem;
+            color: var(--neon-green);
+            margin-bottom: 8px;
+        }
+
+        .achievement-card.locked .achievement-title {
+            color: var(--crt-text);
+            opacity: 0.7;
+        }
+
+        .achievement-desc {
+            font-size: 0.85rem;
+            color: var(--crt-text);
+            line-height: 1.4;
+            margin-bottom: 10px;
+            min-height: 40px;
+        }
+
+        .achievement-game {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--retro-pink);
+            margin-bottom: 10px;
+        }
+
+        .achievement-reward {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .achievement-progress {
+            margin-top: 10px;
+        }
+
+        .progress-bar.small {
+            height: 6px;
+            margin-bottom: 5px;
+        }
+
+        .achievement-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .unlocked-icon {
+            background: var(--neon-green);
+            color: #000;
+            animation: unlock-spin 2s ease-in-out infinite;
+        }
+
+        @keyframes unlock-spin {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .locked-icon {
+            background: rgba(255, 105, 180, 0.3);
+            color: var(--retro-pink);
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: var(--crt-text);
+            text-transform: uppercase;
+        }
+
+        .achievement-card.unlocked .status-text {
+            color: var(--neon-green);
+        }
+
+        /* Pied de page */
+        .achievements-footer {
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-info {
+            margin-bottom: 15px;
+        }
+
+        .footer-tip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--retro-cyan);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-stats .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--crt-text);
+            font-size: 0.8rem;
+        }
+
+        .footer-stats .stat i {
+            color: var(--retro-pink);
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--crt-text);
+            opacity: 0.6;
+            margin-top: 10px;
+        }
+
+        /* Bouton de notification */
+        .notification-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--retro-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 100;
+            border-color: var(--retro-pink);
+        }
+
+        .notification-btn:hover {
+            background: var(--retro-pink);
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--neon-green);
+            color: #000;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #000;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 3px solid var(--neon-green);
+            animation: modal-appear 0.3s ease-out;
+        }
+
+        @keyframes modal-appear {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--retro-cyan);
+        }
+
+        .modal-title {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+
+        .close-modal {
+            font-size: 1.8rem;
+            color: var(--retro-pink);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--neon-green);
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--retro-cyan), var(--neon-green));
+            color: #000;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'DotGothic16', monospace;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .crt-frame {
+                border: 10px solid #111;
+            }
+            
+            .crt-screen {
+                padding: 15px;
+            }
+            
+            .global-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-display {
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .game-tabs {
+                justify-content: center;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .category-progress {
+                width: 100%;
+            }
+            
+            .notification-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .global-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-tabs {
+                flex-direction: column;
+            }
+            
+            .game-tab {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* Effet de dégradation CRT */
+        .crt-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 3;
+        }
+    </style>
+
+    <script>
+        // JavaScript pour la page des succès
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Effet d'allumage CRT
+            const crtScreen = document.querySelector('.crt-screen');
+            crtScreen.style.animation = 'crt-power-on 2s ease-out';
+            
+            // Charger les données des succès
+            loadAchievementsData();
+            
+            // Tabs des jeux
+            const gameTabs = document.querySelectorAll('.game-tab');
+            const achievementCategories = document.querySelectorAll('.achievements-category');
+            
+            gameTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Retirer active de tous les tabs
+                    gameTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Ajouter active au tab cliqué
+                    this.classList.add('active');
+                    
+                    // Afficher la catégorie correspondante
+                    const game = this.getAttribute('data-game');
+                    
+                    achievementCategories.forEach(category => {
+                        category.classList.remove('active');
+                        if (category.id === `${game}-achievements` || (game === 'all' && category.id === 'all-achievements')) {
+                            category.classList.add('active');
+                        }
+                    });
+                    
+                    // Mettre à jour les statistiques
+                    updateCategoryStats(game);
+                    
+                    // Son de sélection
+                    playRetroSound('select');
+                });
+            });
+            
+            // Bouton de notification
+            const notificationBtn = document.getElementById('newAchievementBtn');
+            const notificationCount = document.getElementById('notificationCount');
+            const achievementModal = document.getElementById('achievementModal');
+            const claimRewardBtn = document.getElementById('claimRewardBtn');
+            const closeModal = document.querySelector('.close-modal');
+            
+            let newAchievements = [];
+            
+            // Charger les notifications
+            function loadNotifications() {
+                try {
+                    const savedNotifications = localStorage.getItem('newAchievements');
+                    if (savedNotifications) {
+                        newAchievements = JSON.parse(savedNotifications);
+                        notificationCount.textContent = newAchievements.length;
+                        
+                        if (newAchievements.length > 0) {
+                            notificationBtn.style.display = 'flex';
+                            notificationBtn.classList.add('blinking');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erreur de chargement des notifications:', error);
+                }
+            }
+            
+            // Afficher les notifications
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    if (newAchievements.length > 0) {
+                        showAchievementModal(newAchievements[0]);
+                    } else {
+                        // Afficher un message si pas de nouvelles notifications
+                        showNotification('Aucun nouveau succès à réclamer !');
+                    }
+                    
+                    playRetroSound('select');
+                });
+            }
+            
+            // Afficher le modal de succès
+            function showAchievementModal(achievement) {
+                const modalBody = document.getElementById('modalAchievement');
+                
+                modalBody.innerHTML = `
+                    <div class="achievement-modal-card">
+                        <div class="modal-icon" style="background: ${achievement.color}">
+                            <i class="${achievement.icon}"></i>
+                        </div>
+                        <h4 class="modal-achievement-title pixel-text">${achievement.name}</h4>
+                        <p class="modal-achievement-desc">${achievement.description}</p>
+                        <div class="modal-achievement-game">
+                            <i class="${achievement.gameIcon}"></i> ${achievement.game}
+                        </div>
+                        <div class="modal-achievement-reward">
+                            <i class="fas fa-coins"></i> +${achievement.reward} JETONS
+                        </div>
+                    </div>
+                `;
+                
+                achievementModal.style.display = 'flex';
+            }
+            
+            // Réclamer la récompense
+            if (claimRewardBtn) {
+                claimRewardBtn.addEventListener('click', function() {
+                    if (newAchievements.length > 0) {
+                        const achievement = newAchievements.shift();
+                        
+                        // Ajouter les jetons
+                        addTokens(achievement.reward);
+                        
+                        // Mettre à jour l'interface
+                        updateAchievementStatus(achievement.id, true);
+                        
+                        // Sauvegarder les changements
+                        localStorage.setItem('newAchievements', JSON.stringify(newAchievements));
+                        notificationCount.textContent = newAchievements.length;
+                        
+                        // Fermer le modal
+                        achievementModal.style.display = 'none';
+                        
+                        // Animation de succès
+                        showSuccessAnimation(achievement.reward);
+                        
+                        playRetroSound('success');
+                        
+                        // Mettre à jour les stats
+                        loadAchievementsData();
+                        
+                    } else {
+                        achievementModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Fermer le modal
+            if (closeModal) {
+                closeModal.addEventListener('click', function() {
+                    achievementModal.style.display = 'none';
+                    playRetroSound('click');
+                });
+            }
+            
+            // Fermer le modal en cliquant dehors
+            window.addEventListener('click', function(event) {
+                if (event.target === achievementModal) {
+                    achievementModal.style.display = 'none';
+                    playRetroSound('click');
+                }
+            });
+            
+            // Charger les données des succès
+            function loadAchievementsData() {
+                try {
+                    // Succès débloqués
+                    const unlockedAchievements = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+                    
+                    // Total des succès disponibles
+                    const totalAchievements = document.querySelectorAll('.achievement-card').length;
+                    
+                    // Calculer le pourcentage de complétion
+                    const completionRate = Math.round((unlockedAchievements.length / totalAchievements) * 100);
+                    
+                    // Mettre à jour l'affichage
+                    document.getElementById('totalAchievements').textContent = unlockedAchievements.length;
+                    document.getElementById('completionRate').textContent = `${completionRate}%`;
+                    
+                    // Mettre à jour les succès débloqués dans l'interface
+                    updateAchievementsDisplay(unlockedAchievements);
+                    
+                    // Calculer les jetons gagnés
+                    calculateEarnedTokens(unlockedAchievements);
+                    
+                    // Charger les notifications
+                    loadNotifications();
+                    
+                    // Mettre à jour les autres stats
+                    updateGlobalStats();
+                    
+                } catch (error) {
+                    console.error('Erreur de chargement des succès:', error);
+                }
+            }
+            
+            // Mettre à jour l'affichage des succès
+            function updateAchievementsDisplay(unlockedIds) {
+                const achievementCards = document.querySelectorAll('.achievement-card');
+                
+                achievementCards.forEach(card => {
+                    // Récupérer l'ID du succès (simplifié pour cet exemple)
+                    const achievementId = card.querySelector('.achievement-title').textContent.trim();
+                    
+                    if (unlockedIds.includes(achievementId)) {
+                        card.classList.add('unlocked');
+                        card.classList.remove('locked');
+                        
+                        // Mettre à jour le statut
+                        const status = card.querySelector('.achievement-status');
+                        status.classList.remove('locked');
+                        status.innerHTML = `
+                            <div class="status-icon unlocked-icon">
+                                <i class="fas fa-unlock"></i>
+                            </div>
+                            <span class="status-text">DÉBLOQUÉ</span>
+                        `;
+                    } else {
+                        card.classList.remove('unlocked');
+                        card.classList.add('locked');
+                    }
+                });
+            }
+            
+            // Mettre à jour le statut d'un succès
+            function updateAchievementStatus(achievementId, unlocked) {
+                const achievementCards = document.querySelectorAll('.achievement-card');
+                
+                achievementCards.forEach(card => {
+                    const title = card.querySelector('.achievement-title').textContent.trim();
+                    
+                    if (title === achievementId) {
+                        if (unlocked) {
+                            card.classList.add('unlocked');
+                            card.classList.remove('locked');
+                            
+                            const status = card.querySelector('.achievement-status');
+                            status.classList.remove('locked');
+                            status.innerHTML = `
+                                <div class="status-icon unlocked-icon">
+                                    <i class="fas fa-unlock"></i>
+                                </div>
+                                <span class="status-text">DÉBLOQUÉ</span>
+                            `;
+                        } else {
+                            card.classList.remove('unlocked');
+                            card.classList.add('locked');
+                        }
+                    }
+                });
+            }
+            
+            // Calculer les jetons gagnés
+            function calculateEarnedTokens(unlockedIds) {
+                let totalTokens = 0;
+                const achievementCards = document.querySelectorAll('.achievement-card.unlocked');
+                
+                achievementCards.forEach(card => {
+                    const rewardElement = card.querySelector('.achievement-reward span');
+                    if (rewardElement) {
+                        const rewardText = rewardElement.textContent;
+                        const tokens = parseInt(rewardText.replace(/[^0-9]/g, '')) || 0;
+                        totalTokens += tokens;
+                    }
+                });
+                
+                document.getElementById('totalTokens').textContent = totalTokens;
+            }
+            
+            // Ajouter des jetons
+            function addTokens(amount) {
+                const currentTokens = parseInt(localStorage.getItem('arcadeTokens') || '1000');
+                const newTokens = currentTokens + amount;
+                
+                localStorage.setItem('arcadeTokens', newTokens);
+                
+                // Animation
+                const tokenElement = document.getElementById('totalTokens');
+                const current = parseInt(tokenElement.textContent);
+                tokenElement.textContent = current + amount;
+                
+                tokenElement.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    tokenElement.style.transform = 'scale(1)';
+                }, 300);
+            }
+            
+            // Animation de succès
+            function showSuccessAnimation(tokens) {
+                const animationDiv = document.createElement('div');
+                animationDiv.className = 'success-animation pixel-border';
+                animationDiv.innerHTML = `
+                    <i class="fas fa-trophy"></i>
+                    <div class="animation-text">+${tokens} JETONS !</div>
+                `;
+                animationDiv.style.position = 'fixed';
+                animationDiv.style.top = '50%';
+                animationDiv.style.left = '50%';
+                animationDiv.style.transform = 'translate(-50%, -50%)';
+                animationDiv.style.background = '#000';
+                animationDiv.style.padding = '20px';
+                animationDiv.style.zIndex = '2000';
+                animationDiv.style.borderColor = '#39FF14';
+                animationDiv.style.textAlign = 'center';
+                
+                document.body.appendChild(animationDiv);
+                
+                // Animation
+                animationDiv.style.opacity = '0';
+                
+                setTimeout(() => {
+                    animationDiv.style.opacity = '1';
+                    animationDiv.style.transform = 'translate(-50%, -50%) scale(1.2)';
+                }, 10);
+                
+                setTimeout(() => {
+                    animationDiv.style.opacity = '0';
+                    animationDiv.style.transform = 'translate(-50%, -50%) scale(1)';
+                    setTimeout(() => {
+                        document.body.removeChild(animationDiv);
+                    }, 300);
+                }, 2000);
+            }
+            
+            // Mettre à jour les statistiques globales
+            function updateGlobalStats() {
+                try {
+                    // Historique des jeux
+                    const gameHistory = JSON.parse(localStorage.getItem('gameHistory') || '[]');
+                    document.getElementById('totalGamesPlayed').textContent = gameHistory.length;
+                    
+                    // Temps de jeu
+                    const totalPlayTime = gameHistory.length * 5;
+                    document.getElementById('totalPlayTime').textContent = totalPlayTime;
+                    
+                    // Série de jeu
+                    const lastPlay = localStorage.getItem('lastPlayDate');
+                    const today = new Date().toDateString();
+                    let streak = 1;
+                    
+                    if (lastPlay === today) {
+                        streak = parseInt(localStorage.getItem('playStreak') || '1');
+                    }
+                    
+                    document.getElementById('currentStreak').textContent = streak;
+                    
+                    // Rang du joueur
+                    updatePlayerRank();
+                    
+                } catch (error) {
+                    console.error('Erreur de mise à jour des stats:', error);
+                }
+            }
+            
+            // Mettre à jour le rang du joueur
+            function updatePlayerRank() {
+                try {
+                    const scoresJson = localStorage.getItem('arcadeHighScores');
+                    if (scoresJson) {
+                        const scores = JSON.parse(scoresJson);
+                        
+                        // Group scores by user
+                        const userTotals = {};
+                        scores.forEach(score => {
+                            if (!userTotals[score.username]) {
+                                userTotals[score.username] = 0;
+                            }
+                            userTotals[score.username] += score.score;
+                        });
+                        
+                        // Create sorted array
+                        const sortedUsers = Object.entries(userTotals)
+                            .sort((a, b) => b[1] - a[1]);
+                        
+                        // Find current user rank
+                        const currentUser = localStorage.getItem('arcadeUsername') || 'JOUEUR';
+                        const rank = sortedUsers.findIndex(([username]) => username === currentUser) + 1;
+                        
+                        document.getElementById('playerRank').textContent = `#${rank || '--'}`;
+                    }
+                } catch (error) {
+                    console.error('Erreur de calcul du rang:', error);
+                }
+            }
+            
+            // Mettre à jour les stats de catégorie
+            function updateCategoryStats(game) {
+                if (game === 'all') {
+                    const totalCards = document.querySelectorAll('.achievement-card').length;
+                    const unlockedCards = document.querySelectorAll('.achievement-card.unlocked').length;
+                    const progress = Math.round((unlockedCards / totalCards) * 100);
+                    
+                    document.getElementById('allProgress').style.width = `${progress}%`;
+                    document.getElementById('allProgressText').textContent = `${unlockedCards}/${totalCards}`;
+                }
+            }
+            
+            // Afficher une notification
+            function showNotification(message) {
+                const notificationDiv = document.createElement('div');
+                notificationDiv.className = 'notification-message pixel-border';
+                notificationDiv.innerHTML = `
+                    <i class="fas fa-info-circle"></i>
+                    <span>${message}</span>
+                `;
+                notificationDiv.style.position = 'fixed';
+                notificationDiv.style.bottom = '100px';
+                notificationDiv.style.right = '30px';
+                notificationDiv.style.background = '#000';
+                notificationDiv.style.padding = '15px';
+                notificationDiv.style.zIndex = '100';
+                notificationDiv.style.borderColor = '#00CED1';
+                
+                document.body.appendChild(notificationDiv);
+                
+                // Animation
+                notificationDiv.style.opacity = '0';
+                notificationDiv.style.transform = 'translateX(100px)';
+                
+                setTimeout(() => {
+                    notificationDiv.style.opacity = '1';
+                    notificationDiv.style.transform = 'translateX(0)';
+                }, 10);
+                
+                // Supprimer après 3 secondes
+                setTimeout(() => {
+                    notificationDiv.style.opacity = '0';
+                    notificationDiv.style.transform = 'translateX(100px)';
+                    setTimeout(() => {
+                        document.body.removeChild(notificationDiv);
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Effet de bruit CRT aléatoire
+            function randomCRTNoise() {
+                const noise = document.querySelector('.tv-noise');
+                if (noise) {
+                    setInterval(() => {
+                        const randomX = Math.random() * 10;
+                        const randomY = Math.random() * 10;
+                        noise.style.backgroundPosition = `${randomX}px ${randomY}px`;
+                    }, 50);
+                }
+            }
+            
+            // Effet de scintillement aléatoire
+            setInterval(() => {
+                const pixelTexts = document.querySelectorAll('.pixel-text');
+                const randomText = pixelTexts[Math.floor(Math.random() * pixelTexts.length)];
+                if (randomText) {
+                    randomText.style.opacity = '0.7';
+                    setTimeout(() => {
+                        randomText.style.opacity = '1';
+                    }, 100);
+                }
+            }, 300);
+            
+            // Animation des succès débloqués
+            setInterval(() => {
+                const unlockedCards = document.querySelectorAll('.achievement-card.unlocked');
+                unlockedCards.forEach(card => {
+                    if (Math.random() < 0.1) {
+                        card.style.transform = 'translateY(-3px)';
+                        setTimeout(() => {
+                            card.style.transform = '';
+                        }, 300);
+                    }
+                });
+            }, 2000);
+            
+            // Effet de vibration sur hover des boutons
+            const buttons = document.querySelectorAll('.nav-btn, .game-tab, .modal-btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-2px) scale(1.05)';
+                    playRetroSound('click');
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = '';
+                });
+            });
+            
+            // Simulation de sons rétro
+            function playRetroSound(type) {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    switch(type) {
+                        case 'select':
+                            playBeep(audioContext, 800, 100, 0.2);
+                            break;
+                        case 'click':
+                            playBeep(audioContext, 600, 50, 0.1);
+                            break;
+                        case 'success':
+                            playSuccessSound(audioContext);
+                            break;
+                    }
+                } catch (e) {
+                    console.log('Audio context non supporté');
+                }
+            }
+            
+            function playBeep(audioContext, frequency, duration, volume) {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration / 1000);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+            }
+            
+            function playSuccessSound(audioContext) {
+                const frequencies = [800, 1200, 1600];
+                const duration = 100;
+                
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(audioContext, freq, duration, 0.2);
+                    }, index * duration);
+                });
+            }
+            
+            // Message aléatoire
+                        // Message aléatoire
+            const achievementMessages = [
+                "GALERIE DES SUCCÈS ACTIVE",
+                "DÉBLOQUEZ TOUS LES SUCCÈS !",
+                "RÉCOMPENSES EN ATTENTE",
+                "SYSTEM ACHIEVEMENTS ONLINE",
+                "BONUS DE JETONS DISPONIBLES"
+            ];
+            
+            const navTitle = document.querySelector('.nav-title');
+            if (navTitle) {
+                setInterval(() => {
+                    const randomMsg = achievementMessages[Math.floor(Math.random() * achievementMessages.length)];
+                    navTitle.innerHTML = `<i class="fas fa-trophy"></i> ${randomMsg}`;
+                    setTimeout(() => {
+                        navTitle.innerHTML = `<i class="fas fa-trophy"></i> GALLERIE DES SUCCÈS`;
+                    }, 3000);
+                }, 15000);
+            }
+            
+            // Vérifier automatiquement les nouveaux succès
+            function checkForNewAchievements() {
+                try {
+                    const gameHistory = JSON.parse(localStorage.getItem('gameHistory') || '[]');
+                    const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+                    const scores = JSON.parse(localStorage.getItem('arcadeHighScores') || '[]');
+                    
+                    // Calculer le score total
+                    let totalScore = 0;
+                    scores.forEach(score => {
+                        totalScore += score.score || 0;
+                    });
+                    
+                    // Logique pour détecter les nouveaux succès
+                    if (gameHistory.length >= 1 && !unlocked.includes("PREMIÈRE PARTIE")) {
+                        unlockAchievement("PREMIÈRE PARTIE", "BASIC", 50);
+                    }
+                    
+                    if (totalScore >= 1000 && !unlocked.includes("SCORE 1000")) {
+                        unlockAchievement("SCORE 1000", "EASY", 100);
+                    }
+                    
+                    if (gameHistory.length >= 10 && !unlocked.includes("MAÎTRE DU JEU")) {
+                        unlockAchievement("MAÎTRE DU JEU", "MEDIUM", 200);
+                    }
+                    
+                    // Vérifier les succès Pac-Man
+                    const pacmanGames = gameHistory.filter(game => game.gameId === '1' || game.gameId === 'pacman');
+                    if (pacmanGames.length >= 1 && !unlocked.includes("PREMIER MORD")) {
+                        unlockAchievement("PREMIER MORD", "BASIC", 50, "PAC-ROMÂN", "fas fa-ghost");
+                    }
+                    
+                    // Vérifier les succès Serpent
+                    const snakeGames = gameHistory.filter(game => game.gameId === '2' || game.gameId === 'snake');
+                    if (snakeGames.length >= 1 && !unlocked.includes("PREMIER GLISSEMENT")) {
+                        unlockAchievement("PREMIER GLISSEMENT", "BASIC", 50, "ȘARPE", "fas fa-snake");
+                    }
+                    
+                    if (snakeGames.length >= 5 && !unlocked.includes("SERPENT AFFAMÉ")) {
+                        unlockAchievement("SERPENT AFFAMÉ", "EASY", 100, "ȘARPE", "fas fa-apple-alt");
+                    }
+                    
+                } catch (error) {
+                    console.error('Erreur de vérification des succès:', error);
+                }
+            }
+            
+            // Débloquer un succès
+            function unlockAchievement(achievementId, difficulty, reward, game = "MULTIJEUX", gameIcon = "fas fa-globe") {
+                try {
+                    const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+                    
+                    if (!unlocked.includes(achievementId)) {
+                        unlocked.push(achievementId);
+                        localStorage.setItem('unlockedAchievements', JSON.stringify(unlocked));
+                        
+                        // Ajouter aux nouvelles notifications
+                        const newAchievements = JSON.parse(localStorage.getItem('newAchievements') || '[]');
+                        
+                        newAchievements.push({
+                            id: achievementId,
+                            name: achievementId,
+                            description: getDescriptionForAchievement(achievementId),
+                            reward: reward,
+                            color: getColorForDifficulty(difficulty),
+                            icon: getIconForAchievement(achievementId),
+                            game: game,
+                            gameIcon: gameIcon
+                        });
+                        
+                        localStorage.setItem('newAchievements', JSON.stringify(newAchievements));
+                        
+                        // Recharger les notifications
+                        loadNotifications();
+                        
+                        // Animation visuelle
+                        showAchievementSparkle(achievementId);
+                        
+                        // Jouer un son spécial
+                        playRetroSound('success');
+                    }
+                    
+                } catch (error) {
+                    console.error('Erreur de déblocage du succès:', error);
+                }
+            }
+            
+            // Obtenir la description d'un succès
+            function getDescriptionForAchievement(achievementId) {
+                const descriptions = {
+                    "PREMIÈRE PARTIE": "Jouez votre première partie dans n'importe quel jeu",
+                    "SCORE 1000": "Atteignez 1000 points cumulés dans tous les jeux",
+                    "MAÎTRE DU JEU": "Gagnez 10 parties dans différents jeux",
+                    "COLLECTIONNEUR": "Débloquez 20 succès différents",
+                    "LÉGENDE DE L'ARCADE": "Complétez tous les succès d'au moins 3 jeux",
+                    "PREMIER MORD": "Jouez votre première partie de Pac-Man",
+                    "CHASSEUR DE FANTÔMES": "Mangez 50 fantômes au total",
+                    "DÉMON DE LA VITESSE": "Terminez le niveau 5 en moins de 2 minutes",
+                    "FIÈVRE PAC-MAN": "Jouez 25 parties de Pac-Man",
+                    "MAÎTRE PAC-MAN": "Marquez 10 000 points en une seule partie",
+                    "PREMIER GLISSEMENT": "Jouez votre première partie de Serpent",
+                    "SERPENT AFFAMÉ": "Mangez 50 pommes au total",
+                    "LONG SERPENT": "Faites grandir votre serpent à 20 segments",
+                    "SURVIVANT": "Survivez 5 minutes sans mourir",
+                    "CHARMEUR DE SERPENTS": "Marquez 500 points en une seule partie"
+                };
+                
+                return descriptions[achievementId] || "Succès débloqué !";
+            }
+            
+            // Obtenir une couleur selon la difficulté
+            function getColorForDifficulty(difficulty) {
+                switch(difficulty) {
+                    case 'BASIC': return '#32cd32';
+                    case 'EASY': return '#00c8ff';
+                    case 'MEDIUM': return '#ffd700';
+                    case 'HARD': return '#ff4757';
+                    case 'LEGEND': return '#9b59b6';
+                    default: return '#00CED1';
+                }
+            }
+            
+            // Obtenir une icône selon le succès
+            function getIconForAchievement(achievementId) {
+                if (achievementId.includes("PREMIÈRE") || achievementId.includes("PREMIER")) return "fas fa-play";
+                if (achievementId.includes("SCORE")) return "fas fa-star";
+                if (achievementId.includes("MAÎTRE")) return "fas fa-trophy";
+                if (achievementId.includes("COLLECTIONNEUR")) return "fas fa-gem";
+                if (achievementId.includes("LÉGENDE")) return "fas fa-crown";
+                if (achievementId.includes("CHASSEUR")) return "fas fa-ghost";
+                if (achievementId.includes("DÉMON")) return "fas fa-bolt";
+                if (achievementId.includes("FIÈVRE")) return "fas fa-infinity";
+                if (achievementId.includes("AFFAMÉ")) return "fas fa-apple-alt";
+                if (achievementId.includes("LONG")) return "fas fa-ruler";
+                if (achievementId.includes("SURVIVANT")) return "fas fa-clock";
+                if (achievementId.includes("CHARMEUR")) return "fas fa-music";
+                return "fas fa-medal";
+            }
+            
+            // Animation d'étincelle pour succès débloqué
+            function showAchievementSparkle(achievementId) {
+                const cards = document.querySelectorAll('.achievement-card');
+                cards.forEach(card => {
+                    const title = card.querySelector('.achievement-title');
+                    if (title && title.textContent.trim() === achievementId) {
+                        // Créer des étincelles
+                        for (let i = 0; i < 10; i++) {
+                            setTimeout(() => {
+                                createSparkle(card);
+                            }, i * 100);
+                        }
+                        
+                        // Animation de la carte
+                        card.style.transform = 'scale(1.1)';
+                        card.style.boxShadow = '0 0 30px var(--neon-green)';
+                        
+                        setTimeout(() => {
+                            card.style.transform = '';
+                            card.style.boxShadow = '';
+                        }, 1000);
+                    }
+                });
+            }
+            
+            // Créer une étincelle
+            function createSparkle(parent) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.position = 'absolute';
+                sparkle.style.width = '10px';
+                sparkle.style.height = '10px';
+                sparkle.style.background = 'var(--neon-green)';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.zIndex = '10';
+                
+                // Position aléatoire autour de la carte
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                sparkle.style.left = `${x}%`;
+                sparkle.style.top = `${y}%`;
+                
+                parent.appendChild(sparkle);
+                
+                // Animation
+                sparkle.style.opacity = '1';
+                sparkle.style.transform = 'scale(1)';
+                
+                setTimeout(() => {
+                    sparkle.style.opacity = '0';
+                    sparkle.style.transform = 'scale(0) translateY(-50px)';
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.parentNode.removeChild(sparkle);
+                        }
+                    }, 500);
+                }, 500);
+            }
+            
+            // Mettre à jour les barres de progression
+            function updateProgressBars() {
+                const categories = document.querySelectorAll('.achievements-category');
+                categories.forEach(category => {
+                    const totalCards = category.querySelectorAll('.achievement-card').length;
+                    const unlockedCards = category.querySelectorAll('.achievement-card.unlocked').length;
+                    const progressFill = category.querySelector('.progress-fill');
+                    const progressText = category.querySelector('.progress-text');
+                    
+                    if (progressFill && progressText) {
+                        const progress = Math.round((unlockedCards / totalCards) * 100);
+                        progressFill.style.width = `${progress}%`;
+                        progressText.textContent = `${unlockedCards}/${totalCards}`;
+                    }
+                });
+            }
+            
+            // Charger les données au démarrage
+            function initializeAchievements() {
+                // Vérifier si c'est la première visite
+                if (!localStorage.getItem('achievementsInitialized')) {
+                    // Initialiser les données par défaut
+                    localStorage.setItem('unlockedAchievements', JSON.stringify(["PREMIÈRE PARTIE", "PREMIER GLISSEMENT", "SERPENT AFFAMÉ"]));
+                    localStorage.setItem('achievementsInitialized', 'true');
+                }
+            }
+            
+            // Initialisation
+            initializeAchievements();
+            randomCRTNoise();
+            checkForNewAchievements();
+            loadAchievementsData();
+            updateProgressBars();
+            
+            // Mettre à jour périodiquement
+            setInterval(() => {
+                checkForNewAchievements();
+                updateProgressBars();
+            }, 30000); // Toutes les 30 secondes
+            
+            // Effet d'allumage CRT
+            setTimeout(() => {
+                crtScreen.style.animation = '';
+            }, 2000);
+            
+            // Ajouter le style CSS pour les étincelles
+            const style = document.createElement('style');
+            style.textContent = `
+                .sparkle {
+                    pointer-events: none;
+                    animation: sparkle-fly 0.5s ease-out forwards;
+                }
+                
+                @keyframes sparkle-fly {
+                    0% {
+                        opacity: 1;
+                        transform: scale(1) translateY(0);
+                    }
+                    100% {
+                        opacity: 0;
+                        transform: scale(0) translateY(-50px);
+                    }
+                }
+                
+                /* Animation d'apparition CRT */
+                @keyframes crt-power-on {
+                    0% {
+                        opacity: 0;
+                        transform: scale(0.95);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
+                
+                /* Style pour les succès récemment débloqués */
+                .achievement-card.recently-unlocked {
+                    animation: achievement-unlock 2s ease-out;
+                }
+                
+                @keyframes achievement-unlock {
+                    0% {
+                        transform: scale(0.8);
+                        opacity: 0.5;
+                    }
+                    50% {
+                        transform: scale(1.1);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+    
+</body>
+</html>
